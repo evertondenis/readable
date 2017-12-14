@@ -1,0 +1,46 @@
+
+
+query {
+  postByCategory(category: "redux") {
+    id
+    timestamp
+    title
+    body
+    author
+    category
+    voteScore
+    deleted
+    commentCount
+  }
+}
+
+query {
+  posts {
+    id
+    timestamp
+    title
+    body
+    author
+    category
+    voteScore
+    deleted
+    commentCount
+  }
+}
+
+mutation {
+  addPost(
+    timestamp: 232878677,
+    title: "Sou um teste",
+    body: "sou o body do teste",
+    author: "Everton Denis",
+    category: "redux"
+  ) {
+    id
+    timestamp
+    title
+    body
+    author
+    category
+  }
+}
