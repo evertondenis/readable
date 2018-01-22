@@ -6,7 +6,7 @@
     "concurrently": "^3.5.1"
   },
   "scripts": {
-    "server": "cd api-server && yarn && node server",
+    "server": "cd server && yarn && yarn start",
     "frontend": "cd frontend && yarn && yarn start",
     "start": "concurrently \"yarn server\" \"yarn frontend\" "
   }
