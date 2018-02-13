@@ -32,6 +32,7 @@ type Query {
   channels: [Channel]
   categories: [Categories]
   posts: [Posts]
+  postById(id: ID!): [Posts]
   postByCategory(category: String!): [Posts]
 }
 

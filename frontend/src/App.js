@@ -7,8 +7,13 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: []
+      posts: [],
+      postTitle: ''
     }
+
+    this.loadPost = this.loadPost.bind(this)
+    this.updateInput = this.updateInput.bind(this)
+    this.addPost = this.addPost.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -22,19 +27,54 @@ class App extends Component {
     }
   }
 
+  loadPost(id) {
+    console.log(id)
+    /* this.props.postById({
+      variables: {
+        id
+      },
+      refetchQueries: [{
+        query: Query
+      }]
+    }).then((response) => {
+      console.log('response', response)
+    }).catch((err) => {
+      console.log('err', err)
+    }) */
+  }
+
+  updateInput(data) {
+    this.setState({
+      postTitle: data
+    })
+  }
+
+  addPost(e) {
+    e.preventDefault()
+    console.log(e.target.title.value)
+  }
+
   render() {
-    const { posts } = this.state
+    const { posts, postTitle } = this.state
+    console.log(posts)
 
     return (
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Welcome to Readable App</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <form onSubmit={this.addPost}>
+          <input
+            className="form-control"
+            name="title"
+            value={postTitle}
+            placeholder="add new post"
+            onChange={ev => this.updateInput(ev.target.value)}
+          />
+          <button type="submit">ADD POST</button>
+        </form>
         <h2>Posts:</h2>
-        {posts.map(item => <p key={item.id}>{item.title}</p>)}
+        {posts.map(item => <p key={item.id} onClick={() => this.loadPost(item.id)}>{item.title}</p>)}
       </div>
     );
   }
@@ -54,6 +94,28 @@ const Query = gql`query posts {
   }
 }`
 
+const PostById = gql`query postById($id: ID!) {
+  postById(id: $id) {
+    id
+    timestamp
+    title
+    body
+    author
+    category
+    voteScore
+    deleted
+    commentCount
+  }
+}`
+
 export default compose(
-  graphql(Query)
+  graphql(Query),
+  graphql(PostById, {
+    name: 'postById'
+    /* options: props => ({
+      variables: {
+        id: props
+      }
+    }) */
+  })
 )(App);
