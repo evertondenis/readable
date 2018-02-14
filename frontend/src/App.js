@@ -27,20 +27,17 @@ class App extends Component {
     }
   }
 
-  loadPost(id) {
-    console.log(id)
-    /* this.props.postById({
+  loadPost = id => {
+    this.props.postById({
       variables: {
         id
       },
-      refetchQueries: [{
-        query: Query
-      }]
-    }).then((response) => {
-      console.log('response', response)
-    }).catch((err) => {
-      console.log('err', err)
-    }) */
+    }).then(({ data }) => {
+      // does get resolved, I have all the data from the response
+      console.log(data)
+    }).catch((error) => {
+      console.log(error)
+    })
   }
 
   updateInput(data) {
@@ -56,7 +53,6 @@ class App extends Component {
 
   render() {
     const { posts, postTitle } = this.state
-    console.log(posts)
 
     return (
       <div className="App">
@@ -110,12 +106,5 @@ const PostById = gql`query postById($id: ID!) {
 
 export default compose(
   graphql(Query),
-  graphql(PostById, {
-    name: 'postById'
-    /* options: props => ({
-      variables: {
-        id: props
-      }
-    }) */
-  })
+  graphql(PostById, {name: 'postById'})
 )(App);
