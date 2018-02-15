@@ -8,7 +8,8 @@ class App extends Component {
     super(props);
     this.state = {
       posts: [],
-      postTitle: ''
+      postTitle: '',
+      postActive: ''
     }
 
     this.loadPost = this.loadPost.bind(this)
@@ -35,6 +36,9 @@ class App extends Component {
     }).then(({ data }) => {
       // does get resolved, I have all the data from the response
       console.log(data)
+      this.setState({
+        postActive: data.postById[0]
+      })
     }).catch((error) => {
       console.log(error)
     })
@@ -52,25 +56,36 @@ class App extends Component {
   }
 
   render() {
-    const { posts, postTitle } = this.state
+    const { posts, postTitle, postActive } = this.state
+    const condition = !!postActive
 
     return (
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Welcome to Readable App</h1>
         </header>
-        <form onSubmit={this.addPost}>
-          <input
-            className="form-control"
-            name="title"
-            value={postTitle}
-            placeholder="add new post"
-            onChange={ev => this.updateInput(ev.target.value)}
-          />
-          <button type="submit">ADD POST</button>
-        </form>
-        <h2>Posts:</h2>
-        {posts.map(item => <p key={item.id} onClick={() => this.loadPost(item.id)}>{item.title}</p>)}
+        <div className="container">
+          <form onSubmit={this.addPost}>
+            <input
+              className="form-control"
+              name="title"
+              value={postTitle}
+              placeholder="add new post"
+              onChange={ev => this.updateInput(ev.target.value)}
+            />
+            <button type="submit">ADD POST</button>
+          </form>
+          <h2>Posts:</h2>
+          {posts.map(item => <a key={item.id} onClick={() => this.loadPost(item.id)}>{item.title}</a>)}
+          {condition && (
+            <ul>
+              <li><span className="title">Título:</span> {postActive.title}</li>
+              <li><span className="title">Descrição:</span> {postActive.body}</li>
+              <li><span className="title">ID:</span> {postActive.id}</li>
+              <li><span className="title">Categoria:</span> {postActive.category}</li>
+            </ul>
+          )}
+        </div>
       </div>
     );
   }
@@ -90,7 +105,7 @@ const Query = gql`query posts {
   }
 }`
 
-const PostById = gql`query postById($id: ID!) {
+const PostById = gql`mutation postById($id: ID!) {
   postById(id: $id) {
     id
     timestamp

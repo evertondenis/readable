@@ -32,11 +32,11 @@ type Query {
   channels: [Channel]
   categories: [Categories]
   posts: [Posts]
-  postById(id: ID!): [Posts]
   postByCategory(category: String!): [Posts]
 }
 
 type Mutation {
+  postById(id: ID!): [Posts]
   addChannel(name: String!): Channel
   addCategory(name: String!, path: String!): Categories
   addPost(

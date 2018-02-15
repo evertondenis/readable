@@ -7,3 +7,31 @@ body {
 .form-control {
   margin: 10px 0;
 }
+
+a {
+  display: block;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: tomato;
+}
+
+.container {
+  width: 600px;
+  margin: 10px auto;
+  text-align: left;
+}
+
+ul {
+  padding: 0 10px;
+}
+
+ul > li {
+  list-style: none;
+}
+
+.title {
+  color: tomato;
+}
