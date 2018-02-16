@@ -9,5 +9,6 @@
     "server": "cd server && yarn && yarn start",
     "frontend": "cd frontend && yarn && yarn start",
     "start": "concurrently \"yarn server\" \"yarn frontend\" "
-  }
+  },
+  "devDependencies": {}
 }

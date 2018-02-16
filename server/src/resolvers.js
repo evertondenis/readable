@@ -53,10 +53,10 @@ export const resolvers = {
     channels: () => channels,
     categories: () => categories,
     posts: () => posts.filter(post => !post.deleted),
+    postById: (root, { id }) => posts.filter(post => post.id === id),
     postByCategory: (root, { category }) => posts.filter(post => post.category === category)
   },
   Mutation: {
-    postById: (root, { id }) => posts.filter(post => post.id === id),
     addChannel: (root, args) => {
       const newChannel = { id: nextId++, name: args.name };
       channels.push(newChannel);

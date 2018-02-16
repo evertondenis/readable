@@ -12,18 +12,17 @@ class App extends Component {
       postActive: ''
     }
 
-    this.loadPost = this.loadPost.bind(this)
-    this.updateInput = this.updateInput.bind(this)
-    this.addPost = this.addPost.bind(this)
+    //this.createPost = this.createPost.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
     const data = nextProps.data
     if(data) {
+      console.log('Posts: ', data.posts)
       this.setState({
         posts: data.posts
       }, () => {
-        //console.log('this.state:', this.state)
+        console.log('this.state:', this.state)
       })
     }
   }
@@ -35,24 +34,37 @@ class App extends Component {
       },
     }).then(({ data }) => {
       // does get resolved, I have all the data from the response
-      console.log(data)
+      console.log('loadPost: ', data)
       this.setState({
         postActive: data.postById[0]
       })
-    }).catch((error) => {
-      console.log(error)
-    })
+    }).catch((error) => console.log(error))
   }
 
-  updateInput(data) {
+  updateInput = data => {
     this.setState({
       postTitle: data
     })
   }
 
-  addPost(e) {
+  createPost = e => {
     e.preventDefault()
-    console.log(e.target.title.value)
+    const title = e.target.title.value
+
+    this.props.addPost({
+      variables: {
+        timestamp: '1467166872634',
+        title,
+        body: 'body',
+        author: 'admin',
+        category: 'redux'
+      },
+      refetchQueries: [{
+        query: Query
+      }]
+    }).then(({ data }) => {
+      console.log('createPost: ', data)
+    }).catch((error) => console.log(error))
   }
 
   render() {
@@ -65,7 +77,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to Readable App</h1>
         </header>
         <div className="container">
-          <form onSubmit={this.addPost}>
+          <form onSubmit={this.createPost}>
             <input
               className="form-control"
               name="title"
@@ -105,7 +117,7 @@ const Query = gql`query posts {
   }
 }`
 
-const PostById = gql`mutation postById($id: ID!) {
+const PostById = gql`query postById($id: ID!) {
   postById(id: $id) {
     id
     timestamp
@@ -119,7 +131,20 @@ const PostById = gql`mutation postById($id: ID!) {
   }
 }`
 
+const AddPost = gql`
+mutation addPost($timestamp: String, $title: String!, $body: String, $author: String, $category: String) {
+  addPost(timestamp: $timestamp, title: $title, body: $body, author: $author, category: $category) {
+    id
+    timestamp
+    title
+    body
+    author
+    category
+  }
+}`
+
 export default compose(
   graphql(Query),
-  graphql(PostById, {name: 'postById'})
+  //graphql(PostById, {name: 'postById'}),
+  graphql(AddPost, {name: 'addPost'})
 )(App);

@@ -33,18 +33,18 @@ type Query {
   categories: [Categories]
   posts: [Posts]
   postByCategory(category: String!): [Posts]
+  postById(id: ID!): [Posts]
 }
 
 type Mutation {
-  postById(id: ID!): [Posts]
   addChannel(name: String!): Channel
   addCategory(name: String!, path: String!): Categories
   addPost(
-    timestamp: Float!
+    timestamp: String
     title: String!
     body: String
-    author: String!
-    category: String!
+    author: String
+    category: String
   ): Posts
 }
 `;

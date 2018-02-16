@@ -58,3 +58,31 @@ mutation {
     category
   }
 }
+
+
+
+query {
+  postById(id: "8xf0y6ziyjabvozdd253nd") {
+    id
+    timestamp
+    title
+    body
+    author
+    category
+    voteScore
+    deleted
+    commentCount
+  },
+
+  posts {
+    id
+    timestamp
+    title
+    body
+    author
+    category
+    voteScore
+    deleted
+    commentCount
+  }
+}
