@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag';
-import './App.css';
+import gql from 'graphql-tag'
+import isEmpty from 'lodash/isEmpty'
+import './App.css'
+
 
 class App extends Component {
   constructor(props) {
@@ -22,19 +25,19 @@ class App extends Component {
       this.setState({
         posts: data.posts
       }, () => {
-        console.log('this.state:', this.state)
+        //console.log('this.state:', this.state)
       })
     }
   }
 
   loadPost = id => {
+    /* console.log(id)
+    console.log(this.props); */
+
     this.props.postById({
-      variables: {
-        id
-      },
-    }).then(({ data }) => {
-      // does get resolved, I have all the data from the response
-      console.log('loadPost: ', data)
+      variables: id
+    })
+    .then(({ data }) => {
       this.setState({
         postActive: data.postById[0]
       })
@@ -51,24 +54,38 @@ class App extends Component {
     e.preventDefault()
     const title = e.target.title.value
 
-    this.props.addPost({
-      variables: {
-        timestamp: '1467166872634',
-        title,
-        body: 'body',
-        author: 'admin',
-        category: 'redux'
-      },
-      refetchQueries: [{
-        query: Query
-      }]
-    }).then(({ data }) => {
-      console.log('createPost: ', data)
-    }).catch((error) => console.log(error))
+    if(title !== '') {
+      this.props.addPost({
+        variables: {
+          timestamp: '1467166872634',
+          title,
+          body: 'body',
+          author: 'admin',
+          category: 'redux'
+        },
+        refetchQueries: [{
+          query: Query
+        }]
+      }).then(({ data }) => {
+        console.log('createPost: ', data)
+        this.setState({
+          postTitle: ''
+        })
+      }).catch((error) => console.log(error))
+    }
+  }
+
+  renderList = posts => {
+    return (
+      <div>
+        {posts.map(item => <a key={item.id} onClick={() => this.loadPost(item.id)}>{item.title}</a>)}
+      </div>
+    )
   }
 
   render() {
     const { posts, postTitle, postActive } = this.state
+    const hasPosts = !isEmpty(posts)
     const condition = !!postActive
 
     return (
@@ -88,7 +105,7 @@ class App extends Component {
             <button type="submit">ADD POST</button>
           </form>
           <h2>Posts:</h2>
-          {posts.map(item => <a key={item.id} onClick={() => this.loadPost(item.id)}>{item.title}</a>)}
+          {hasPosts && this.renderList(posts)}
           {condition && (
             <ul>
               <li><span className="title">Título:</span> {postActive.title}</li>
@@ -101,6 +118,14 @@ class App extends Component {
       </div>
     );
   }
+}
+
+App.defaultProps = {
+  id: ''
+}
+
+App.propTypes = {
+  id: PropTypes.any.isRequired
 }
 
 const Query = gql`query posts {
@@ -145,6 +170,14 @@ mutation addPost($timestamp: String, $title: String!, $body: String, $author: St
 
 export default compose(
   graphql(Query),
-  //graphql(PostById, {name: 'postById'}),
+  graphql(PostById, {
+    name: 'postById',
+    //options: props => ({ variables: { id: props }})
+    options: ({ match }) => ({
+      variables: {
+        id: match
+      }
+    })
+  }),
   graphql(AddPost, {name: 'addPost'})
-)(App);
+)(App)
