@@ -12,6 +12,7 @@ a {
   display: block;
   cursor: pointer;
   text-decoration: underline;
+  color: black;
 }
 
 a:hover {

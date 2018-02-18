@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmpty from 'lodash/isEmpty'
-import './App.css'
+import Container from './styled'
 
 
 class App extends Component {
@@ -78,7 +79,11 @@ class App extends Component {
   renderList = posts => {
     return (
       <div>
-        {posts.map(item => <a key={item.id} onClick={() => this.loadPost(item.id)}>{item.title}</a>)}
+        {posts.map(post => (
+          <Link key={`post-${post.id}`} to={`/post/${post.id}`} className='Home-link'>
+            {post.title}
+          </Link>
+        ))}
       </div>
     )
   }
@@ -89,7 +94,7 @@ class App extends Component {
     const condition = !!postActive
 
     return (
-      <div className="App">
+      <Container>
         <header className="App-header">
           <h1 className="App-title">Welcome to Readable App</h1>
         </header>
@@ -115,7 +120,7 @@ class App extends Component {
             </ul>
           )}
         </div>
-      </div>
+      </Container>
     );
   }
 }
@@ -142,8 +147,8 @@ const Query = gql`query posts {
   }
 }`
 
-const PostById = gql`query postById($id: ID!) {
-  postById(id: $id) {
+const SinglePost = gql`query singlePost($id: ID!) {
+  singlePost(id: $id) {
     id
     timestamp
     title
@@ -170,14 +175,14 @@ mutation addPost($timestamp: String, $title: String!, $body: String, $author: St
 
 export default compose(
   graphql(Query),
-  graphql(PostById, {
-    name: 'postById',
+  /* graphql(SinglePost, {
+    name: 'singlePost',
     //options: props => ({ variables: { id: props }})
     options: ({ match }) => ({
       variables: {
         id: match
       }
     })
-  }),
+  }), */
   graphql(AddPost, {name: 'addPost'})
 )(App)

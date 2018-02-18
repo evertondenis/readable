@@ -33,7 +33,7 @@ type Query {
   categories: [Categories]
   posts: [Posts]
   postByCategory(category: String!): [Posts]
-  postById(id: ID!): [Posts]
+  singlePost(id: ID!): [Posts]
 }
 
 type Mutation {
