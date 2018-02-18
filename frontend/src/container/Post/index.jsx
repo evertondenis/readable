@@ -1,6 +1,6 @@
 import React from 'react'
-import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 import isEmpty from 'lodash/isEmpty'
 import first from 'lodash/first'
 
@@ -11,6 +11,7 @@ const Post = ({ data: { post } }) => {
   if(hasPost) {
     const item = first(post)
     console.log(item)
+
     return (
       <article>
         {hasPost &&
@@ -22,21 +23,6 @@ const Post = ({ data: { post } }) => {
 
   return <p>Loading...</p>
 }
-
-/* export const singlePost = gql`
-  query singlePost($slug: String!) {
-    post: Post(slug: $slug) {
-      id
-      slug
-      title
-      coverImage {
-        handle
-      }
-      content
-      dateAndTime
-    }
-  }
-` */
 
 const SinglePost = gql`
   query singlePost($id: ID!) {

@@ -164,7 +164,6 @@ const SinglePost = gql`query singlePost($id: ID!) {
 const AddPost = gql`
 mutation addPost($timestamp: String, $title: String!, $body: String, $author: String, $category: String) {
   addPost(timestamp: $timestamp, title: $title, body: $body, author: $author, category: $category) {
-    id
     timestamp
     title
     body
