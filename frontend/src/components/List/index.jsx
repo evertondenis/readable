@@ -7,7 +7,7 @@ const List = ({ posts }) => {
     <div>
       <h2>Posts:</h2>
       {posts.map(post => (
-        <Item key={post.id} item={post}/>
+        <Item key={`post-${post.id}`} item={post}/>
       ))}
     </div>
   )
