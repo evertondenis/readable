@@ -1,3 +1,5 @@
+import uuidv4 from 'uuid/v4'
+
 const channels = [{
   id: 1,
   name: 'soccer',
@@ -46,8 +48,6 @@ const posts = [
   }
 ]
 
-let nextId = 3;
-
 export const resolvers = {
   Query: {
     channels: () => channels,
@@ -69,7 +69,7 @@ export const resolvers = {
     },
     addPost: (root, args) => {
       const newPost = {
-        id: nextId++,
+        id: uuidv4(),
         timestamp: args.timestamp,
         title: args.title,
         body: args.body,

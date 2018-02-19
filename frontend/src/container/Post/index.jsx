@@ -2,15 +2,13 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import isEmpty from 'lodash/isEmpty'
 import first from 'lodash/first'
 
-//const Post = ({ data: { post } }) => {
+
 class Post extends Component {
   render() {
-    const { data: { post } } = this.props
-    const hasPost = !isEmpty(post)
-    const postActive = hasPost && first(post)
+    const { data: { loading, post } } = this.props
+    const postActive = !loading && first(post)
 
     return (
       <div>
@@ -21,8 +19,8 @@ class Post extends Component {
         >
           Back to Home
         </NavLink>
-        {!hasPost && <p>Loading...</p>}
-        {hasPost && (
+        {loading && <p>Loading...</p>}
+        {!loading && (
           <article>
             <h1>{postActive.title}</h1>
           </article>

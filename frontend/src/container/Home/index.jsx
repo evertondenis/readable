@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmpty from 'lodash/isEmpty'
+import List from '../../components/List'
 import Container from './styled'
 
 
@@ -15,8 +15,6 @@ class App extends Component {
       postTitle: '',
       postActive: ''
     }
-
-    //this.createPost = this.createPost.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -25,16 +23,11 @@ class App extends Component {
       console.log('Posts: ', data.posts)
       this.setState({
         posts: data.posts
-      }, () => {
-        //console.log('this.state:', this.state)
       })
     }
   }
 
   loadPost = id => {
-    /* console.log(id)
-    console.log(this.props); */
-
     this.props.postById({
       variables: id
     })
@@ -76,22 +69,9 @@ class App extends Component {
     }
   }
 
-  renderList = posts => {
-    return (
-      <div>
-        {posts.map(post => (
-          <Link key={`post-${post.id}`} to={`/post/${post.id}`} className='Home-link'>
-            {post.title}
-          </Link>
-        ))}
-      </div>
-    )
-  }
-
   render() {
-    const { posts, postTitle, postActive } = this.state
+    const { posts, postTitle } = this.state
     const hasPosts = !isEmpty(posts)
-    const condition = !!postActive
 
     return (
       <Container>
@@ -109,16 +89,7 @@ class App extends Component {
             />
             <button type="submit">ADD POST</button>
           </form>
-          <h2>Posts:</h2>
-          {hasPosts && this.renderList(posts)}
-          {condition && (
-            <ul>
-              <li><span className="title">Título:</span> {postActive.title}</li>
-              <li><span className="title">Descrição:</span> {postActive.body}</li>
-              <li><span className="title">ID:</span> {postActive.id}</li>
-              <li><span className="title">Categoria:</span> {postActive.category}</li>
-            </ul>
-          )}
+          {hasPosts && <List posts={posts} />}
         </div>
       </Container>
     );

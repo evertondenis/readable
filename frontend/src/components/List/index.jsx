@@ -1,35 +1,20 @@
-import React, { Component } from 'react'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import React from 'react'
+import PropTypes from 'prop-types'
+import Item from './item'
 
-class List extends Component {
-  render() {
-    const { items, onClick } = this.props
-
-    console.log(this.props)
-
-    return (
-      <div>
-        {items.map(item => <a key={item.id} onClick={() => onClick(item.id)}>{item.title}</a>)}
-      </div>
-    )
-  }
+const List = ({ posts }) => {
+  return (
+    <div>
+      <h2>Posts:</h2>
+      {posts.map(post => (
+        <Item key={post.id} item={post}/>
+      ))}
+    </div>
+  )
 }
 
-const POST_QUERY = gql`query PostById($id: ID) {
-  postById(id: $id) {
-    id
-    timestamp
-    title
-    body
-    author
-    category
-    voteScore
-    deleted
-    commentCount
-  }
-}`
+List.propTypes = {
+  posts: PropTypes.array.isRequired
+}
 
-export default graphql(POST_QUERY, { name: 'postById' })(List)
-
-//export default List
+export default List
