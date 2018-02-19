@@ -1,27 +1,35 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { NavLink } from 'react-router-dom'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmpty from 'lodash/isEmpty'
 import first from 'lodash/first'
 
-const Post = ({ data: { post } }) => {
-  const hasPost = !isEmpty(post)
-  console.log(hasPost)
-
-  if(hasPost) {
-    const item = first(post)
-    console.log(item)
+//const Post = ({ data: { post } }) => {
+class Post extends Component {
+  render() {
+    const { data: { post } } = this.props
+    const hasPost = !isEmpty(post)
+    const postActive = hasPost && first(post)
 
     return (
-      <article>
-        {hasPost &&
-          <h1>{item.title}</h1>
-        }
-      </article>
+      <div>
+        <NavLink
+          exact to='/'
+          className='Header-navLink'
+          activeClassName='Header-isActive'
+        >
+          Back to Home
+        </NavLink>
+        {!hasPost && <p>Loading...</p>}
+        {hasPost && (
+          <article>
+            <h1>{postActive.title}</h1>
+          </article>
+        )}
+      </div>
     )
   }
-
-  return <p>Loading...</p>
 }
 
 const SinglePost = gql`

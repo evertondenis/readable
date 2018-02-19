@@ -147,20 +147,6 @@ const Query = gql`query posts {
   }
 }`
 
-const SinglePost = gql`query singlePost($id: ID!) {
-  singlePost(id: $id) {
-    id
-    timestamp
-    title
-    body
-    author
-    category
-    voteScore
-    deleted
-    commentCount
-  }
-}`
-
 const AddPost = gql`
 mutation addPost($timestamp: String, $title: String!, $body: String, $author: String, $category: String) {
   addPost(timestamp: $timestamp, title: $title, body: $body, author: $author, category: $category) {
@@ -174,14 +160,5 @@ mutation addPost($timestamp: String, $title: String!, $body: String, $author: St
 
 export default compose(
   graphql(Query),
-  /* graphql(SinglePost, {
-    name: 'singlePost',
-    //options: props => ({ variables: { id: props }})
-    options: ({ match }) => ({
-      variables: {
-        id: match
-      }
-    })
-  }), */
   graphql(AddPost, {name: 'addPost'})
 )(App)
