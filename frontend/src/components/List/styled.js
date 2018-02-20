@@ -6,5 +6,5 @@ export const ItemStyled = styled.div`
   background-color: white;
   border: 1px solid #eeeeee;
   border-radius: 1px;
-  box-shadow: 0 4px 10px rgba(20,23,28,.25);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.18);
 `
