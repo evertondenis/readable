@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmpty from 'lodash/isEmpty'
+import orderBy from 'lodash/orderBy'
 import List from '../../components/List'
 import Container from './styled'
 
@@ -73,11 +74,10 @@ class App extends Component {
     const { posts, postTitle } = this.state
     const hasPosts = !isEmpty(posts)
 
+    console.log(orderBy(posts, 'voteScore', 'desc'))
+
     return (
       <Container>
-        <header className="App-header">
-          <h1 className="App-title">Welcome to Readable App</h1>
-        </header>
         <div className="container">
           <form onSubmit={this.createPost}>
             <input
@@ -89,6 +89,7 @@ class App extends Component {
             />
             <button type="submit">ADD POST</button>
           </form>
+          {/* <Filter list={posts} orderBy="voteScore" /> */}
           {hasPosts && <List posts={posts} />}
         </div>
       </Container>
