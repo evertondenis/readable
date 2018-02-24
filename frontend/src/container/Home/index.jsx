@@ -14,7 +14,8 @@ class App extends Component {
     this.state = {
       posts: [],
       postTitle: '',
-      postActive: ''
+      postActive: '',
+      sort: 'desc'
     }
   }
 
@@ -23,7 +24,7 @@ class App extends Component {
     if(data) {
       console.log('Posts: ', data.posts)
       this.setState({
-        posts: data.posts
+        posts: orderBy(data.posts, 'voteScore', 'desc')
       })
     }
   }
@@ -70,11 +71,17 @@ class App extends Component {
     }
   }
 
+  orderPost = () => {
+    const sort = this.state.sort === 'asc' ? 'desc' : 'asc'
+    this.setState(prevState => ({
+      posts: orderBy(prevState.posts, 'title', sort),
+      sort
+    }))
+  }
+
   render() {
     const { posts, postTitle } = this.state
     const hasPosts = !isEmpty(posts)
-
-    console.log(orderBy(posts, 'voteScore', 'desc'))
 
     return (
       <Container>
@@ -89,8 +96,12 @@ class App extends Component {
             />
             <button type="submit">ADD POST</button>
           </form>
-          {/* <Filter list={posts} orderBy="voteScore" /> */}
-          {hasPosts && <List posts={posts} />}
+          {hasPosts && (
+            <div>
+              <button onClick={this.orderPost} >Order Posts</button>
+              <List posts={posts} />
+            </div>
+          )}
         </div>
       </Container>
     );
