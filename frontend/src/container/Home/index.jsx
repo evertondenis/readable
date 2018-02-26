@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmpty from 'lodash/isEmpty'
@@ -37,38 +38,25 @@ class App extends Component {
       this.setState({
         postActive: data.postById[0]
       })
-    }).catch((error) => console.log(error))
+    }).catch(error => console.log(error))
   }
 
-  updateInput = data => {
-    this.setState({
-      postTitle: data
+  deletePost = id => {
+    console.log(id)
+    this.props.deletePost({
+      variables: {
+        id
+      },
+      refetchQueries: [{
+        query: Query
+      }]
     })
-  }
-
-  createPost = e => {
-    e.preventDefault()
-    const title = e.target.title.value
-
-    if(title !== '') {
-      this.props.addPost({
-        variables: {
-          timestamp: '1467166872634',
-          title,
-          body: 'body',
-          author: 'admin',
-          category: 'redux'
-        },
-        refetchQueries: [{
-          query: Query
-        }]
-      }).then(({ data }) => {
-        console.log('createPost: ', data)
-        this.setState({
-          postTitle: ''
-        })
-      }).catch((error) => console.log(error))
-    }
+    .then(({ data }) => {
+      this.setState({
+        posts: orderBy(data.posts, 'voteScore', 'desc')
+      })
+    })
+    .catch(error => console.log(error))
   }
 
   orderPost = () => {
@@ -80,26 +68,17 @@ class App extends Component {
   }
 
   render() {
-    const { posts, postTitle } = this.state
+    const { posts } = this.state
     const hasPosts = !isEmpty(posts)
 
     return (
       <Container>
         <div className="container">
-          <form onSubmit={this.createPost}>
-            <input
-              className="form-control"
-              name="title"
-              value={postTitle}
-              placeholder="add new post"
-              onChange={ev => this.updateInput(ev.target.value)}
-            />
-            <button type="submit">ADD POST</button>
-          </form>
           {hasPosts && (
             <div>
               <button onClick={this.orderPost} >Order Posts</button>
-              <List posts={posts} />
+              <Link to={'/add-post'} >Add Post</Link>
+              <List posts={posts} remove={() => this.deletePost} />
             </div>
           )}
         </div>
@@ -130,18 +109,15 @@ const Query = gql`query posts {
   }
 }`
 
-const AddPost = gql`
-mutation addPost($timestamp: String, $title: String!, $body: String, $author: String, $category: String) {
-  addPost(timestamp: $timestamp, title: $title, body: $body, author: $author, category: $category) {
-    timestamp
-    title
-    body
-    author
-    category
+const DeletePost = gql`mutation deletePost($id: ID!) {
+  deletePost(id: $id) {
+    id
   }
-}`
+}
+`
+
 
 export default compose(
   graphql(Query),
-  graphql(AddPost, {name: 'addPost'})
+  graphql(DeletePost, {name: 'deletePost'})
 )(App)

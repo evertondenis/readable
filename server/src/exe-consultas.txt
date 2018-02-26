@@ -43,6 +43,12 @@ query {
 }
 
 mutation {
+  deletePost(id: "7220213a-e845-462d-bd6b-197b03bf9c55") {
+    id
+  }
+}
+
+mutation {
   addPost(
     timestamp: 232878677,
     title: "Sou um teste",

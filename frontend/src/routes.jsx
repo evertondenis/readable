@@ -4,6 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import Main from './container/Main'
 import Home from './container/Home'
 import Post from './container/Post'
+import AddPost from './container/Post/AddPost'
 
 const Routes = () => (
   <BrowserRouter>
@@ -12,6 +13,7 @@ const Routes = () => (
         <Main>
           <Route exact path='/' component={Home} />
           <Route path='/post/:id' component={Post} />
+          <Route path='/add-post' component={AddPost} />
         </Main>
       </main>
     </div>

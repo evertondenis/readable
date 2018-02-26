@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import Home from '../Home'
+import React from 'react'
 import { Header } from './styled'
 import '../../core/assets/style'
 

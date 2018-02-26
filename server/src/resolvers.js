@@ -58,7 +58,7 @@ export const resolvers = {
   },
   Mutation: {
     addChannel: (root, args) => {
-      const newChannel = { id: nextId++, name: args.name };
+      const newChannel = { id: uuidv4, name: args.name };
       channels.push(newChannel);
       return newChannel;
     },
@@ -81,6 +81,10 @@ export const resolvers = {
       };
       posts.push(newPost)
       return newPost;
+    },
+    deletePost: (root, args) => {
+      const newPosts = posts.filter(post => post.id !== args.id)
+      console.log(newPosts)
     }
   },
 };
