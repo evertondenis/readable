@@ -13,6 +13,10 @@ const Container = styled.div`
   .App-intro {
     font-size: large;
   }
+
+  button {
+    margin: 10px 0;
+  }
 `
 
 export default Container

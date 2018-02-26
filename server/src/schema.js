@@ -46,7 +46,7 @@ type Mutation {
     author: String
     category: String
   ): Posts
-  deletePost(id: ID!): Posts
+  deletePost(id: ID!): [Posts]
 }
 `;
 

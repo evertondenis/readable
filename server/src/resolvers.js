@@ -83,8 +83,10 @@ export const resolvers = {
       return newPost;
     },
     deletePost: (root, args) => {
-      const newPosts = posts.filter(post => post.id !== args.id)
-      console.log(newPosts)
+      const indexPost = posts.indexOf(args.id)
+      console.log(indexPost)
+      posts.splice(indexPost, 1)
+      return posts
     }
   },
 };

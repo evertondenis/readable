@@ -76,8 +76,8 @@ class App extends Component {
         <div className="container">
           {hasPosts && (
             <div>
-              <button onClick={this.orderPost} >Order Posts</button>
               <Link to={'/add-post'} >Add Post</Link>
+              <button onClick={this.orderPost} >Order Posts</button>
               <List posts={posts} remove={() => this.deletePost} />
             </div>
           )}
