@@ -14,7 +14,7 @@ const Item = ({ item, remove }) => {
       <p>Author: {item.author}</p>
       <p><span>Comments: {item.commentCount}</span> | <span>Score: {item.voteScore}</span></p>
       <p><span>UP</span> - <span>DOWN</span></p>
-      <p><button onClick={remove(item.id)} >delete</button></p>
+      {/* <p><button onClick={remove(item.id)} >delete</button></p> */}
     </ItemStyled>
   )
 }
