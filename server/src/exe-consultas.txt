@@ -50,7 +50,7 @@ mutation {
 
 mutation {
   addPost(
-    timestamp: 232878677,
+    timestamp: "232878677",
     title: "Sou um teste",
     body: "sou o body do teste",
     author: "Everton Denis",

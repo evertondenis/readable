@@ -83,8 +83,7 @@ export const resolvers = {
       return newPost;
     },
     deletePost: (root, args) => {
-      const indexPost = posts.indexOf(args.id)
-      console.log(indexPost)
+      const indexPost = posts.map(post => post.id).indexOf(args.id)
       posts.splice(indexPost, 1)
       return posts
     }
