@@ -23,7 +23,6 @@ class App extends Component {
   componentWillReceiveProps (nextProps) {
     const data = nextProps.data
     if(data) {
-      console.log('Posts: ', data.posts)
       this.setState({
         posts: orderBy(data.posts, 'voteScore', 'desc')
       })
@@ -42,7 +41,6 @@ class App extends Component {
   }
 
   deletePost = id => {
-    console.log(id)
     this.props.deletePost({
       variables: {
         id
@@ -71,10 +69,13 @@ class App extends Component {
     const { posts } = this.state
     const hasPosts = !isEmpty(posts)
 
+    const { data: { loading, post } } = this.props
+
     return (
       <Container>
         <div className="container">
-          {hasPosts && (
+          {loading && <p>Loading...</p>}
+          {(!loading && hasPosts) && (
             <div>
               <Link to={'/add-post'} >Add Post</Link>
               <button onClick={this.orderPost} >Order Posts</button>

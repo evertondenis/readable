@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
-import { graphql } from 'react-apollo'
+import { NavLink, Redirect } from 'react-router-dom'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
 class CreatePost extends Component {
@@ -8,7 +8,8 @@ class CreatePost extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      postTitle: ''
+      postTitle: '',
+      postSuccess: false
     }
   }
 
@@ -25,13 +26,13 @@ class CreatePost extends Component {
           author: 'admin',
           category: 'redux'
         },
-       /*  refetchQueries: [{
+        refetchQueries: [{
           query: Query
-        }] */
+        }]
       }).then(({ data }) => {
-        console.log('createPost: ', data)
         this.setState({
-          postTitle: ''
+          postTitle: '',
+          postSuccess: true
         })
       }).catch((error) => console.log(error))
     }
@@ -44,30 +45,50 @@ class CreatePost extends Component {
   }
 
   render() {
-    const { postTitle } = this.state
+    const { postTitle, postSuccess } = this.state
     return (
       <div>
-        <NavLink
-          exact to='/'
-          className='Header-navLink'
-          activeClassName='Header-isActive'
-        >
-          Back to Home
-        </NavLink>
-        <form onSubmit={this.createPost}>
-          <input
-            className="form-control"
-            name="title"
-            value={postTitle}
-            placeholder="add new post"
-            onChange={el => this.setState({ postTitle: el.target.value })}
-          />
-          <button type="submit">ADD POST</button>
-        </form>
+        {!postSuccess ? (
+          <div>
+            <NavLink
+              exact to='/'
+              className='Header-navLink'
+              activeClassName='Header-isActive'
+            >
+              Back to Home
+            </NavLink>
+            <form onSubmit={this.createPost}>
+              <input
+                className="form-control"
+                name="title"
+                value={postTitle}
+                placeholder="add new post"
+                onChange={el => this.setState({ postTitle: el.target.value })}
+              />
+              <button type="submit">ADD POST</button>
+            </form>
+          </div>
+        ) : (
+          <Redirect to='/' />
+        )}
       </div>
     )
   }
 }
+
+const Query = gql`query posts {
+  posts {
+    id
+    timestamp
+    title
+    body
+    author
+    category
+    voteScore
+    deleted
+    commentCount
+  }
+}`
 
 const AddPost = gql`
   mutation addPost($timestamp: String, $title: String!, $body: String, $author: String, $category: String) {
@@ -81,4 +102,7 @@ const AddPost = gql`
   }
 `
 
-export default graphql(AddPost, {name: 'addPost'})(CreatePost)
+export default compose(
+  graphql(Query),
+  graphql(AddPost, {name: 'addPost'})
+)(CreatePost)
