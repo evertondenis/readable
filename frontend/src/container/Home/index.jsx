@@ -41,6 +41,7 @@ class App extends Component {
   }
 
   deletePost = id => {
+    console.log(id)
     this.props.deletePost({
       variables: {
         id
@@ -66,20 +67,19 @@ class App extends Component {
   }
 
   render() {
+    const { data: { loading } } = this.props
     const { posts } = this.state
     const hasPosts = !isEmpty(posts)
-
-    const { data: { loading, post } } = this.props
 
     return (
       <Container>
         <div className="container">
           {loading && <p>Loading...</p>}
+          <Link to={'/add-post'} >Add Post</Link>
           {(!loading && hasPosts) && (
             <div>
-              <Link to={'/add-post'} >Add Post</Link>
               <button onClick={this.orderPost} >Order Posts</button>
-              <List posts={posts} remove={() => this.deletePost} />
+              <List title="Posts" posts={posts} remove={id => this.deletePost(id)} />
             </div>
           )}
         </div>

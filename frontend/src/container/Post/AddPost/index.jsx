@@ -64,6 +64,7 @@ class CreatePost extends Component {
                 value={postTitle}
                 placeholder="add new post"
                 onChange={el => this.setState({ postTitle: el.target.value })}
+                autoFocus
               />
               <button type="submit">ADD POST</button>
             </form>
