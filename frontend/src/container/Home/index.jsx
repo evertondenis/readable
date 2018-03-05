@@ -11,12 +11,13 @@ import Container from './styled'
 import { connect } from 'react-redux'
 import { actions } from '../../state/Home/actions'
 
+//import { Query } from './foo'
+
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: [],
       postTitle: '',
       postActive: '',
       sort: 'desc'
@@ -24,8 +25,11 @@ class App extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    const { allPosts } = this.props
     const data = nextProps.data
+
     if(data) {
+      allPosts(data.posts)
       this.setState({
         posts: orderBy(data.posts, 'voteScore', 'desc')
       })
@@ -66,7 +70,7 @@ class App extends Component {
   }
 
   render() {
-    const { data: { loading }, message, sayHello } = this.props
+    const { data: { loading }, message, sayHello, allPosts } = this.props
     const { posts } = this.state
     const hasPosts = !isEmpty(posts)
 
@@ -82,7 +86,7 @@ class App extends Component {
             </div>
           )}
         </div>
-        <button onClick={() => sayHello('fuck')} >TEXT</button>
+        <button onClick={() => sayHello('Hello redux and GraphQL!')} >TEXT</button>
         <p>{message}</p>
       </Container>
     );
@@ -96,7 +100,9 @@ App.defaultProps = {
 App.propTypes = {
   id: PropTypes.any.isRequired,
   message: PropTypes.string,
-  sayHello: PropTypes.func
+  sayHello: PropTypes.func,
+  allPosts: PropTypes.func,
+  posts: PropTypes.array
 }
 
 const Query = gql`query posts {
@@ -121,9 +127,9 @@ const DeletePost = gql`mutation deletePost($id: ID!) {
 `
 
 const mapProps = ({ homeReducer }) => homeReducer
-const g = compose(graphql(Query),graphql(DeletePost, {name: 'deletePost'}))(App)
-export default connect(mapProps, actions)(g)
-/* export default compose(
+
+export default compose(
   graphql(Query),
-  graphql(DeletePost, {name: 'deletePost'})
-)(App) */
+  graphql(DeletePost, {name: 'deletePost'}),
+  connect(mapProps, actions)
+)(App)
