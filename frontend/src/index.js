@@ -9,10 +9,10 @@ import './core/assets/style'
 
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ApolloProvider client={client}>
+  <ApolloProvider client={client}>
+    <Provider store={store}>
       <Routes />
-    </ApolloProvider>
-  </Provider>,
+    </Provider>
+  </ApolloProvider>,
   document.getElementById('root')
 )

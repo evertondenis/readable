@@ -9,27 +9,32 @@ import List from '../../components/List'
 import Container from './styled'
 
 import { connect } from 'react-redux'
-import { actions } from '../../state/Home/actions'
+//import { compose } from 'redux'
+import { actions } from './actions'
 
-//import { Query } from './foo'
+import { ALL_POSTS } from './queries'
 
-
-class App extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      posts: [],
       postTitle: '',
       postActive: '',
       sort: 'desc'
     }
   }
 
-  componentWillReceiveProps (nextProps) {
-    const { allPosts } = this.props
+  /* componentWillReceiveProps(nextProps) {
+    const { filters, loadProfiles } = this.props
+
+    watchFilters(loadProfiles, filters, nextProps.filters)
+  } */
+
+  componentWillReceiveProps(nextProps) {
     const data = nextProps.data
 
     if(data) {
-      allPosts(data.posts)
       this.setState({
         posts: orderBy(data.posts, 'voteScore', 'desc')
       })
@@ -54,7 +59,7 @@ class App extends Component {
         id
       },
       refetchQueries: [{
-        query: Query
+        query: ALL_POSTS
       }]
     })
     .then(() => this.props.data.refetch())
@@ -70,7 +75,7 @@ class App extends Component {
   }
 
   render() {
-    const { data: { loading }, message, sayHello, allPosts } = this.props
+    const { data: { loading }, message, sayHello } = this.props
     const { posts } = this.state
     const hasPosts = !isEmpty(posts)
 
@@ -93,31 +98,18 @@ class App extends Component {
   }
 }
 
-App.defaultProps = {
+Home.defaultProps = {
   id: ''
 }
 
-App.propTypes = {
+Home.propTypes = {
   id: PropTypes.any.isRequired,
   message: PropTypes.string,
   sayHello: PropTypes.func,
   allPosts: PropTypes.func,
-  posts: PropTypes.array
+  posts: PropTypes.array,
+  orderPosts: PropTypes.func
 }
-
-const Query = gql`query posts {
-  posts {
-    id
-    timestamp
-    title
-    body
-    author
-    category
-    voteScore
-    deleted
-    commentCount
-  }
-}`
 
 const DeletePost = gql`mutation deletePost($id: ID!) {
   deletePost(id: $id) {
@@ -128,8 +120,13 @@ const DeletePost = gql`mutation deletePost($id: ID!) {
 
 const mapProps = ({ homeReducer }) => homeReducer
 
+/* const mapQueryToProps = ({data: { getPage: { page } }, ownProps}) =>
+  ({ curPage: page })
+ */
+//const mapProps = ({ loading, posts }, ownProps) => ({posts: posts})
+
 export default compose(
-  graphql(Query),
+  graphql(ALL_POSTS),
   graphql(DeletePost, {name: 'deletePost'}),
   connect(mapProps, actions)
-)(App)
+)(Home)
