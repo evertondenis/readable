@@ -5,11 +5,10 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmpty from 'lodash/isEmpty'
 import orderBy from 'lodash/orderBy'
-import List from '../../components/List'
+import List from './List'
 import Container from './styled'
 
 import { connect } from 'react-redux'
-//import { compose } from 'redux'
 import { actions } from './actions'
 
 import { ALL_POSTS } from './queries'
@@ -24,12 +23,6 @@ class Home extends Component {
       sort: 'desc'
     }
   }
-
-  /* componentWillReceiveProps(nextProps) {
-    const { filters, loadProfiles } = this.props
-
-    watchFilters(loadProfiles, filters, nextProps.filters)
-  } */
 
   componentWillReceiveProps(nextProps) {
     const data = nextProps.data
@@ -53,7 +46,6 @@ class Home extends Component {
   }
 
   deletePost = id => {
-    console.log(id)
     this.props.deletePost({
       variables: {
         id
@@ -119,11 +111,6 @@ const DeletePost = gql`mutation deletePost($id: ID!) {
 `
 
 const mapProps = ({ homeReducer }) => homeReducer
-
-/* const mapQueryToProps = ({data: { getPage: { page } }, ownProps}) =>
-  ({ curPage: page })
- */
-//const mapProps = ({ loading, posts }, ownProps) => ({posts: posts})
 
 export default compose(
   graphql(ALL_POSTS),
