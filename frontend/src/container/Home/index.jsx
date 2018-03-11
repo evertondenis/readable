@@ -113,7 +113,7 @@ const DeletePost = gql`mutation deletePost($id: ID!) {
 const mapProps = ({ homeReducer }) => homeReducer
 
 export default compose(
+  connect(mapProps, actions),
   graphql(ALL_POSTS),
   graphql(DeletePost, {name: 'deletePost'}),
-  connect(mapProps, actions)
 )(Home)

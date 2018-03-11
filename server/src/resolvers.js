@@ -1,13 +1,5 @@
 import uuidv4 from 'uuid/v4'
 
-const channels = [{
-  id: 1,
-  name: 'soccer',
-}, {
-  id: 2,
-  name: 'baseball',
-}];
-
 const categories = [
   {
     name: 'react',
@@ -48,20 +40,38 @@ const posts = [
   }
 ]
 
+const comments = [
+  {
+    id: '894tuq4ut84ut8v4t8wun89g',
+    parentId: '8xf0y6ziyjabvozdd253nd',
+    timestamp: 1468166872634,
+    body: 'Hi there! I am a COMMENT.',
+    author: 'thingtwo',
+    voteScore: 6,
+    deleted: false,
+    parentDeleted: false
+  },
+  {
+    id: '8tu4bsun805n8un48ve89',
+    parentId: '8xf0y6ziyjabvozdd253nd',
+    timestamp: 1469479767190,
+    body: 'Comments. Are. Cool.',
+    author: 'thingone',
+    voteScore: -5,
+    deleted: false,
+    parentDeleted: false
+  }
+]
+
 export const resolvers = {
   Query: {
-    channels: () => channels,
     categories: () => categories,
     posts: () => posts.filter(post => !post.deleted),
     singlePost: (root, { id }) => posts.filter(post => post.id === id),
+    comments: (root, { parentId }) => comments.filter(comment => comment.parentId === parentId),
     postByCategory: (root, { category }) => posts.filter(post => post.category === category)
   },
   Mutation: {
-    addChannel: (root, args) => {
-      const newChannel = { id: uuidv4, name: args.name };
-      channels.push(newChannel);
-      return newChannel;
-    },
     addCategory: (root, args) => {
       const newCategories = { name: args.name, path: args.path };
       categories.push(newCategories);

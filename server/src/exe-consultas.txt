@@ -42,6 +42,18 @@ query {
   }
 }
 
+query {
+  comments(parentId: "8xf0y6ziyjabvozdd253nd") {
+    id
+    parentId
+    body
+    author
+    voteScore
+    deleted
+    parentDeleted
+  }
+}
+
 mutation {
   deletePost(id: "7220213a-e845-462d-bd6b-197b03bf9c55") {
     id
