@@ -9,6 +9,7 @@ class CreatePost extends Component {
     super(props);
     this.state = {
       postTitle: '',
+      body: '',
       postSuccess: false
     }
   }
@@ -16,13 +17,14 @@ class CreatePost extends Component {
   createPost = form => {
     form.preventDefault()
     const title = form.target.title.value
+    const body = form.target.body.value
 
     if(title !== '') {
       this.props.addPost({
         variables: {
           timestamp: '1467166872634',
           title,
-          body: 'body',
+          body,
           author: 'admin',
           category: 'redux'
         },
@@ -45,7 +47,7 @@ class CreatePost extends Component {
   }
 
   render() {
-    const { postTitle, postSuccess } = this.state
+    const { postTitle, body, postSuccess } = this.state
     return (
       <div>
         {!postSuccess ? (
@@ -58,15 +60,28 @@ class CreatePost extends Component {
               Back to Home
             </NavLink>
             <form onSubmit={this.createPost}>
-              <input
-                className="form-control"
-                name="title"
-                value={postTitle}
-                placeholder="add new post"
-                onChange={el => this.setState({ postTitle: el.target.value })}
-                autoFocus
-              />
-              <button type="submit">ADD POST</button>
+              <div>
+                <input
+                  className="form-control"
+                  name="title"
+                  value={postTitle}
+                  placeholder="Title"
+                  onChange={el => this.setState({ postTitle: el.target.value })}
+                  autoFocus
+                />
+              </div>
+              <div>
+                <textarea
+                  className="form-control"
+                  name="body"
+                  value={body}
+                  onChange={el => this.setState({ body: el.target.value })}
+                  row="4"
+                />
+              </div>
+              <div className="col-md-12 text-center">
+                <button type="submit">ADD POST</button>
+              </div>
             </form>
           </div>
         ) : (

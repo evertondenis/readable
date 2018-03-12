@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import first from 'lodash/first'
+import Comments from './comments'
 
 
 class Post extends Component {
@@ -21,12 +22,15 @@ class Post extends Component {
         </NavLink>
         {loading && <p>Loading...</p>}
         {!loading && (
-          <article>
-            <h1>{postActive.title}</h1>
-            <p>{postActive.author}</p>
-            <p>{postActive.body}</p>
-            <p>{postActive.category}</p>
-          </article>
+          <div>
+            <article>
+              <h1>{postActive.title}</h1>
+              <p><span>author: </span>{postActive.author}</p>
+              <p>{postActive.body}</p>
+              <p><span>category: </span>{postActive.category}</p>
+            </article>
+            <Comments parentId={postActive.id} />
+          </div>
         )}
       </div>
     )
