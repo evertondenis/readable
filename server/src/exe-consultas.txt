@@ -15,7 +15,7 @@ query {
 }
 
 query {
-  postById(id: "6ni6ok3ym7mf1p33lnez") {
+  singlePost(id: "6ni6ok3ym7mf1p33lnez") {
     id
     timestamp
     title
@@ -80,7 +80,7 @@ mutation {
 
 
 query {
-  postById(id: "8xf0y6ziyjabvozdd253nd") {
+  singlePost(id: "8xf0y6ziyjabvozdd253nd") {
     id
     timestamp
     title

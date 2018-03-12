@@ -23,6 +23,9 @@ class Post extends Component {
         {!loading && (
           <article>
             <h1>{postActive.title}</h1>
+            <p>{postActive.author}</p>
+            <p>{postActive.body}</p>
+            <p>{postActive.category}</p>
           </article>
         )}
       </div>

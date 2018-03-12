@@ -28,7 +28,6 @@ class Home extends Component {
     const data = nextProps.data
 
     if(!loading){
-      console.log('test')
       this.setState({
         posts: orderBy(data.posts, 'voteScore', 'desc')
       })
