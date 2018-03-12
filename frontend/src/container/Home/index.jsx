@@ -17,7 +17,6 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: [],
       postTitle: '',
       postActive: '',
       sort: 'desc'
@@ -25,9 +24,11 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const loading = nextProps.loading
     const data = nextProps.data
 
-    if(data) {
+    if(!loading){
+      console.log('test')
       this.setState({
         posts: orderBy(data.posts, 'voteScore', 'desc')
       })
