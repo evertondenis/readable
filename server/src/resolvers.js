@@ -92,6 +92,10 @@ export const resolvers = {
       posts.push(newPost)
       return newPost;
     },
+    votePost: (root, args) => {
+      console.log(args)
+      return posts
+    },
     deletePost: (root, args) => {
       const indexPost = posts.map(post => post.id).indexOf(args.id)
       posts.splice(indexPost, 1)

@@ -54,12 +54,8 @@ class Home extends Component {
     .catch(error => console.log(error))
   }
 
-  likePost = id => {
-    console.log('like: ', id)
-  }
-
-  dislikePost = id => {
-    console.log('dislike: ', id)
+  votePost = (id, type) => {
+    console.log(id, type)
   }
 
   orderPost = () => {
@@ -86,8 +82,7 @@ class Home extends Component {
               <List
                 title="Posts"
                 posts={posts}
-                likePost={id => this.likePost(id)}
-                dislikePost={id => this.dislikePost(id)}
+                votePost={(id, type) => this.votePost(id, type)}
                 remove={id => this.deletePost(id)}
               />
             </div>
@@ -115,7 +110,15 @@ const DeletePost = gql`mutation deletePost($id: ID!) {
 }
 `
 
+const VotePost = gql`mutation votePost($id: ID!, $type: String!) {
+  votePost(id: $id, type: $type) {
+    id
+  }
+}
+`
+
 export default compose(
   graphql(ALL_POSTS),
   graphql(DeletePost, {name: 'deletePost'}),
+  graphql(VotePost, {name: 'votePost'}),
 )(Home)

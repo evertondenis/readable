@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Item from './item'
 
-const List = ({ title, posts, likePost, dislikePost, remove }) => {
+const List = ({ title, posts, votePost, remove }) => {
   return (
     <div>
       <h2>{title}:</h2>
@@ -17,8 +17,8 @@ const List = ({ title, posts, likePost, dislikePost, remove }) => {
           <p>Author: {post.author}</p>
           <p>
             <span>Score: {post.voteScore}</span>
-            <span><button onClick={() => likePost(post.id)} >UP</button></span>
-            <span><button onClick={() => dislikePost(post.id)} >DOWN</button></span>
+            <span><button onClick={() => votePost(post.id, 'upVote')} >UP</button></span>
+            <span><button onClick={() => votePost(post.id, 'downVote')} >DOWN</button></span>
           </p>
           <p>Comments: {post.commentCount}</p>
           <p><button onClick={() => remove(post.id)} >delete</button></p>

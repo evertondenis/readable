@@ -51,6 +51,7 @@ type Mutation {
     author: String
     category: String
   ): Posts
+  votePost(id: ID!, type: String!): [Posts]
   deletePost(id: ID!): [Posts]
 }
 `;
