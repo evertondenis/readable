@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
+import PropsTypes from 'prop-types'
 import { NavLink, Redirect } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
+import { connect } from 'react-redux'
+import { actions } from './store/actions'
 
 class CreatePost extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      postTitle: '',
-      body: '',
       postSuccess: false
     }
   }
@@ -40,14 +41,9 @@ class CreatePost extends Component {
     }
   }
 
-  updateInput = data => {
-    this.setState({
-      postTitle: data
-    })
-  }
-
   render() {
-    const { postTitle, body, postSuccess } = this.state
+    const { postSuccess } = this.state
+    const { updateFormTitle, updateFormBody, postTitle, postBody } = this.props
     return (
       <div>
         {!postSuccess ? (
@@ -66,7 +62,7 @@ class CreatePost extends Component {
                   name="title"
                   value={postTitle}
                   placeholder="Title"
-                  onChange={el => this.setState({ postTitle: el.target.value })}
+                  onChange={evt => updateFormTitle(evt.target.value)}
                   autoFocus
                 />
               </div>
@@ -74,8 +70,8 @@ class CreatePost extends Component {
                 <textarea
                   className="form-control"
                   name="body"
-                  value={body}
-                  onChange={el => this.setState({ body: el.target.value })}
+                  value={postBody}
+                  onChange={evt => updateFormBody(evt.target.value)}
                   row="4"
                 />
               </div>
@@ -118,7 +114,14 @@ const AddPost = gql`
   }
 `
 
+AddPost.propTypes = {
+  updateFormTitle: PropsTypes.func.isRequired
+}
+
+const mapProps = ({ listPostReducer }) => listPostReducer
+
 export default compose(
+  connect(mapProps, actions),
   graphql(Query),
   graphql(AddPost, {name: 'addPost'})
 )(CreatePost)
