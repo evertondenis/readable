@@ -2,51 +2,39 @@ import React, { Component } from 'react'
 import PropsTypes from 'prop-types'
 import { NavLink, Redirect } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
+import gql from 'graphql-tag'
 import { connect } from 'react-redux'
 import { actions } from './store/actions'
-import { ALL_POSTS, CATEGORIES, ADD_POSTS } from './queries'
-import Select from '../../../components/Form/Select'
 
-class CreatePost extends Component {
+class AddComment extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      categories: [],
       postSuccess: false
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const loading = nextProps.data.loading
-    const data = nextProps.data
-
-    if(!loading){
-      this.setState({
-        categories: data.categories
-      })
     }
   }
 
   createPost = form => {
     form.preventDefault()
-    const { postTitle, postBody, postAuthor, postCategory, cleanForm } = this.props
+    const title = form.target.title.value
+    const body = form.target.body.value
 
-    if(postTitle !== '') {
+    if(title !== '') {
       this.props.addPost({
         variables: {
           timestamp: '1467166872634',
-          title: postTitle,
-          body: postBody,
-          author: postAuthor,
-          category: postCategory
+          title,
+          body,
+          author: 'admin',
+          category: 'redux'
         },
         refetchQueries: [{
-          query: ALL_POSTS
+          query: Query
         }]
       }).then(({ data }) => {
-        cleanForm()
         this.setState({
+          postTitle: '',
           postSuccess: true
         })
       }).catch((error) => console.log(error))
@@ -54,16 +42,8 @@ class CreatePost extends Component {
   }
 
   render() {
-    const { categories, postSuccess } = this.state
-    const {
-      updateFormTitle,
-      updateFormBody,
-      updateFormAuthor,
-      handlerOnChange,
-      postTitle,
-      postAuthor,
-      postCategory,
-      postBody } = this.props
+    const { postSuccess } = this.state
+    const { updateFormTitle, updateFormBody, updateFormAuthor, postTitle, postAuthor, postBody } = this.props
     return (
       <div>
         {!postSuccess ? (
@@ -81,26 +61,9 @@ class CreatePost extends Component {
                   className="form-control"
                   name="title"
                   value={postTitle}
-                  placeholder="title"
+                  placeholder="Title"
                   onChange={evt => updateFormTitle(evt.target.value)}
                   autoFocus
-                />
-              </div>
-              <div>
-                <input
-                  className="form-control"
-                  name="author"
-                  value={postAuthor}
-                  placeholder="author"
-                  onChange={evt => updateFormAuthor(evt.target.value)}
-                />
-              </div>
-              <div>
-                <Select
-                  name="category"
-                  value={postCategory}
-                  options={categories}
-                  handlerOnChange={handlerOnChange}
                 />
               </div>
               <div>
@@ -125,18 +88,40 @@ class CreatePost extends Component {
   }
 }
 
-CreatePost.propTypes = {
+const Query = gql`query posts {
+  posts {
+    id
+    timestamp
+    title
+    body
+    author
+    category
+    voteScore
+    deleted
+    commentCount
+  }
+}`
+
+const AddPost = gql`
+  mutation addPost($timestamp: String, $title: String!, $body: String, $author: String, $category: String) {
+    addPost(timestamp: $timestamp, title: $title, body: $body, author: $author, category: $category) {
+      timestamp
+      title
+      body
+      author
+      category
+    }
+  }
+`
+
+AddPost.propTypes = {
   updateFormTitle: PropsTypes.func.isRequired,
-  updateFormAuthor: PropsTypes.func.isRequired,
-  updateFormBody: PropsTypes.func.isRequired,
-  handlerOnChange: PropsTypes.func.isRequired
 }
 
 const mapProps = ({ listPostReducer }) => listPostReducer
 
 export default compose(
   connect(mapProps, actions),
-  graphql(ALL_POSTS),
-  graphql(CATEGORIES),
-  graphql(ADD_POSTS, {name: 'addPost'})
-)(CreatePost)
+  graphql(Query),
+  graphql(AddPost, {name: 'addPost'})
+)(AddComment)

@@ -85,7 +85,7 @@ export const resolvers = {
         body: args.body,
         author: args.author,
         category: args.category,
-        voteScore: 1,
+        voteScore: 0,
         deleted: false,
         commentCount: 0
       };
@@ -93,7 +93,12 @@ export const resolvers = {
       return newPost;
     },
     votePost: (root, args) => {
-      console.log(args)
+      const { id, type } = args
+      posts.map(post => {
+        return post.id === id
+          ? type === 'upVote' ? post.voteScore++ : post.voteScore !== 0 ? post.voteScore-- : 0
+          : post.voteScore
+      })
       return posts
     },
     deletePost: (root, args) => {

@@ -15,3 +15,17 @@ export const ALL_POSTS = gql`
     }
   }
 `
+
+export const DELETE_POST = gql`mutation deletePost($id: ID!) {
+  deletePost(id: $id) {
+    id
+  }
+}
+`
+
+export const VOTE_POST = gql`mutation votePost($id: ID!, $type: String!) {
+  votePost(id: $id, type: $type) {
+    id
+  }
+}
+`

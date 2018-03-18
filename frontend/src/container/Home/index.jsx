@@ -2,19 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
 import isEmpty from 'lodash/isEmpty'
 import orderBy from 'lodash/orderBy'
 import List from '../../components/List'
 import Container from './styled'
-import { ALL_POSTS } from './queries'
+import { ALL_POSTS, DELETE_POST, VOTE_POST } from './queries'
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      postTitle: '',
-      postActive: '',
       sort: 'desc'
     }
   }
@@ -55,7 +52,17 @@ class Home extends Component {
   }
 
   votePost = (id, type) => {
-    console.log(id, type)
+    this.props.votePost({
+      variables: {
+        id,
+        type
+      },
+      refetchQueries: [{
+        query: ALL_POSTS
+      }]
+    })
+    .then(() => this.props.data.refetch())
+    .catch(error => console.log(error))
   }
 
   orderPost = () => {
@@ -103,22 +110,8 @@ Home.propTypes = {
   orderPosts: PropTypes.func
 }
 
-const DeletePost = gql`mutation deletePost($id: ID!) {
-  deletePost(id: $id) {
-    id
-  }
-}
-`
-
-const VotePost = gql`mutation votePost($id: ID!, $type: String!) {
-  votePost(id: $id, type: $type) {
-    id
-  }
-}
-`
-
 export default compose(
   graphql(ALL_POSTS),
-  graphql(DeletePost, {name: 'deletePost'}),
-  graphql(VotePost, {name: 'votePost'}),
+  graphql(DELETE_POST, {name: 'deletePost'}),
+  graphql(VOTE_POST, {name: 'votePost'}),
 )(Home)
