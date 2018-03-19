@@ -45,7 +45,7 @@ type Query {
 type Mutation {
   addCategory(name: String!, path: String!): Categories
   addPost(
-    timestamp: String
+    timestamp: Float
     title: String!
     body: String
     author: String
@@ -53,6 +53,12 @@ type Mutation {
   ): Posts
   votePost(id: ID!, type: String!): [Posts]
   deletePost(id: ID!): [Posts]
+  addComment(
+    parentId: String!
+    timestamp: Float
+    body: String
+    author: String
+  ): Comments
 }
 `;
 

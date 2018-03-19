@@ -35,7 +35,7 @@ class CreatePost extends Component {
     if(postTitle !== '') {
       this.props.addPost({
         variables: {
-          timestamp: '1467166872634',
+          timestamp: 1467166872634,
           title: postTitle,
           body: postBody,
           author: postAuthor,

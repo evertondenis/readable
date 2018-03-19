@@ -105,6 +105,27 @@ export const resolvers = {
       const indexPost = posts.map(post => post.id).indexOf(args.id)
       posts.splice(indexPost, 1)
       return posts
-    }
+    },
+    addComment: (root, args) => {
+      const newComment = {
+        id: uuidv4(),
+        parentId: args.parentId,
+        timestamp: args.timestamp,
+        body: args.body,
+        author: args.author,
+        voteScore: 0,
+        deleted: false
+      };
+      comments.push(newComment)
+
+      let aux = 0
+
+      const indexPost = posts.map(post => post.id).indexOf(args.parentId)
+      //const totalComments = comments.reduce((acc, comment) => acc.parentId === args.parentId ? acc++ : acc + 0, 0)
+      //console.log(totalComments)
+      //console.log('index Post: ', indexPost)
+
+      return newComment;
+    },
   },
 };

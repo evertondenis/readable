@@ -13,3 +13,23 @@ export const ALL_COMMENTS = gql`
     }
   }
 `
+
+export const ADD_COMMENT = gql`
+  mutation addComment(
+    $parentId: String!,
+    $timestamp: Float,
+    $body: String,
+    $author: String
+  ) {
+    addComment(
+      parentId: $parentId,
+      timestamp: $timestamp,
+      body: $body,
+      author: $author
+    ) {
+      timestamp
+      body
+      author
+    }
+  }
+`

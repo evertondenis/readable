@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import AddComment from './addComment'
@@ -18,9 +17,12 @@ class Comments extends Component {
       </StyledComments>
     )
   }
+
   render() {
-    const { data: { loading, comments } } = this.props
+    const { data: { loading, comments }, parentId } = this.props
     const hasComments = !loading && comments
+
+    console.log('parentId: ', parentId)
 
     return (
       <div>
@@ -29,7 +31,7 @@ class Comments extends Component {
         {(!loading && !isEmpty(hasComments)) && (
           map(hasComments, comment => this.renderComments(comment))
         )}
-        <AddComment />
+        <AddComment parentId={parentId} />
       </div>
     )
   }
