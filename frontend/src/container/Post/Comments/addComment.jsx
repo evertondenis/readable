@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import PropsTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { actions } from './store/actions'
 
@@ -14,7 +14,7 @@ class AddComment extends Component {
             <input
               className="form-control"
               name="author"
-              value={postAuthor}
+              value="postAuthor"
               placeholder="author"
               onChange={evt => updateFormAuthor(evt.target.value)}
             />
@@ -23,7 +23,7 @@ class AddComment extends Component {
             <textarea
               className="form-control"
               name="body"
-              value={postBody}
+              value="postBody"
               onChange={evt => updateFormBody(evt.target.value)}
               row="4"
             />
