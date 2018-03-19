@@ -3,6 +3,8 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
+import AddComment from './addComment'
+import { ALL_COMMENTS } from './queries'
 import { StyledComments } from './styled'
 
 
@@ -27,23 +29,11 @@ class Comments extends Component {
         {(!loading && !isEmpty(hasComments)) && (
           map(hasComments, comment => this.renderComments(comment))
         )}
+        <AddComment />
       </div>
     )
   }
 }
 
-const AllComments = gql`
-  query comments($parentId: String!) {
-    comments: comments(parentId: $parentId) {
-      id
-      parentId
-      body
-      author
-      voteScore
-      deleted
-      parentDeleted
-    }
-  }
-`
 
-export default graphql(AllComments)(Comments)
+export default graphql(ALL_COMMENTS)(Comments)

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import first from 'lodash/first'
-import Comments from './comments'
+import Comments from './Comments'
 
 
 class Post extends Component {
