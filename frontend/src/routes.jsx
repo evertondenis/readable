@@ -12,7 +12,7 @@ const Routes = () => (
       <main>
         <Main>
           <Route exact path='/' component={Home} />
-          <Route path='/post/:id' component={Post} />
+          <Route path='/:category/:id' component={Post} />
           <Route path='/add-post' component={AddPost} />
         </Main>
       </main>

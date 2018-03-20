@@ -10,7 +10,7 @@ const List = ({ title, posts, votePost, remove }) => {
       {posts.map(post => (
         <Item key={`post-${post.id}`} item={post} remove={remove} >
           <p>
-            <Link to={`/post/${post.id}`} className='Home-link'>
+            <Link to={`/${post.category}/${post.id}`} className='Home-link'>
               {post.title}
             </Link>
           </p>
