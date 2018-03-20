@@ -11,18 +11,34 @@ import { StyledComments } from './styled'
 class Comments extends Component {
 
   voteComment = (id, type) => {
-    console.log('voteComment: ', id, type)
-    /* this.props.voteComment({
+    this.props.voteComment({
       variables: {
         id,
         type
       },
-      refetchQueries: [{
-        query: ALL_COMMENTS
-      }]
+      refetchQueries: [
+        {
+          query: gql`
+            query comments($parentId: String!) {
+              comments(parentId: $parentId) {
+                id
+                parentId
+                body
+                author
+                voteScore
+                deleted
+                parentDeleted
+              }
+            }
+          `,
+          variables: {
+            parentId: this.props.parentId,
+          },
+        }
+      ]
     })
     .then(() => this.props.data.refetch())
-    .catch(error => console.log(error)) */
+    .catch(error => console.log(error))
   }
 
   deleteComment = (id, parentId) => {
@@ -59,11 +75,12 @@ class Comments extends Component {
     .catch(error => console.log(error))
   }
 
-  renderComments = ({ id, parentId, body, author }) => {
+  renderComments = ({ id, parentId, body, author, voteScore }) => {
     return (
       <StyledComments key={id}>
         <p>{body}</p>
         <p><span>author: </span>{author}</p>
+        <p><span>score: </span>{voteScore}</p>
         <div>
           <button onClick={() => this.voteComment(id, 'upVote')} >UP</button>
           <button onClick={() => this.voteComment(id, 'downVote')} >DOWN</button>

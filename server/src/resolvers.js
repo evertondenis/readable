@@ -34,7 +34,7 @@ const posts = [
     body: 'Just kidding. It takes more than 10 minutes to learn technology.',
     author: 'thingone',
     category: 'redux',
-    voteScore: -5,
+    voteScore: 0,
     deleted: false,
     commentCount: 0
   }
@@ -57,7 +57,7 @@ const comments = [
     timestamp: 1469479767190,
     body: 'Comments. Are. Cool.',
     author: 'thingone',
-    voteScore: -5,
+    voteScore: 0,
     deleted: false,
     parentDeleted: false
   }
@@ -120,6 +120,15 @@ export const resolvers = {
       updateTotalComments(args.parentId)
 
       return newComment;
+    },
+    voteComment: (root, args) => {
+      const { id, type } = args
+      comments.map(comment => {
+        return comment.id === id
+          ? type === 'upVote' ? comment.voteScore++ : comment.voteScore !== 0 ? comment.voteScore-- : 0
+          : comment.voteScore
+      })
+      return comments
     },
     deleteComment: (root, args) => {
       const indexComment = comments.map(comment => comment.id).indexOf(args.id)
