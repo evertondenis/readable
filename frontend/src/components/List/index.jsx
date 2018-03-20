@@ -16,13 +16,17 @@ const List = ({ title, posts, votePost, remove }) => {
           </p>
           <p>Author: {post.author}</p>
           <p>Author: {post.category}</p>
-          <p>
-            <span>Score: {post.voteScore}</span>
-            <span><button onClick={() => votePost(post.id, 'upVote')} >UP</button></span>
-            <span><button onClick={() => votePost(post.id, 'downVote')} >DOWN</button></span>
-          </p>
-          <p>Comments: {post.commentCount}</p>
-          <p><button onClick={() => remove(post.id)} >delete</button></p>
+          <span>Score: {post.voteScore}</span>
+          <div>
+            <button onClick={() => votePost(post.id, 'upVote')} >UP</button>
+            <button onClick={() => votePost(post.id, 'downVote')} >DOWN</button>
+          </div>
+          <div>
+            <p>Comments: {post.commentCount}</p>
+          </div>
+          <div>
+            <p><button onClick={() => remove(post.id)} >delete</button></p>
+          </div>
         </Item>
       ))}
     </div>

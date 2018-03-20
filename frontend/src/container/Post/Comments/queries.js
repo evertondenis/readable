@@ -34,6 +34,20 @@ export const ADD_COMMENT = gql`
   }
 `
 
+export const DELETE_COMMENT = gql`mutation deletePost($id: ID!) {
+  deletePost(id: $id) {
+    id
+  }
+}
+`
+
+export const VOTE_COMMENT = gql`mutation votePost($id: ID!, $type: String!) {
+  votePost(id: $id, type: $type) {
+    id
+  }
+}
+`
+
 export const ALL_POSTS = gql`query posts {
   posts {
     commentCount

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { actions } from './store/actions'
-import { ADD_COMMENT, ALL_COMMENTS, ALL_POSTS } from './queries'
+import { ADD_COMMENT, ALL_POSTS } from './queries'
 
 class AddComment extends Component {
 
