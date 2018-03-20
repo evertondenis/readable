@@ -34,15 +34,16 @@ export const ADD_COMMENT = gql`
   }
 `
 
-export const DELETE_COMMENT = gql`mutation deletePost($id: ID!) {
-  deletePost(id: $id) {
+export const DELETE_COMMENT = gql`mutation deleteComment($id: ID!, $parentId: String) {
+  deleteComment(id: $id, parentId: $parentId) {
     id
+    parentId
   }
 }
 `
 
-export const VOTE_COMMENT = gql`mutation votePost($id: ID!, $type: String!) {
-  votePost(id: $id, type: $type) {
+export const VOTE_COMMENT = gql`mutation voteComment($id: ID!, $type: String!) {
+  voteComment(id: $id, type: $type) {
     id
   }
 }

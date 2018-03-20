@@ -59,6 +59,7 @@ type Mutation {
     body: String
     author: String
   ): Comments
+  deleteComment(id: ID!, parentId: String): [Comments]
 }
 `;
 

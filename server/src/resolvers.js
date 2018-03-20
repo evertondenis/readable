@@ -117,11 +117,23 @@ export const resolvers = {
         deleted: false
       };
       comments.push(newComment)
-      const indexPost = posts.map(post => post.id).indexOf(args.parentId)
-      const totalComments = comments.filter(comment => comment.parentId === args.parentId)
-      posts[indexPost].commentCount = totalComments.length
+      updateTotalComments(args.parentId)
 
       return newComment;
     },
+    deleteComment: (root, args) => {
+      const indexComment = comments.map(comment => comment.id).indexOf(args.id)
+      comments.splice(indexComment, 1)
+      updateTotalComments(args.parentId)
+
+      return comments
+    },
   },
 };
+
+
+const updateTotalComments = parentId => {
+  const indexPost = posts.map(post => post.id).indexOf(parentId)
+  const totalComments = comments.filter(comment => comment.parentId ===  parentId)
+  return posts[indexPost].commentCount = totalComments.length
+}
