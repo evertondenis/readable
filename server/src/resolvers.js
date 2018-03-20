@@ -117,13 +117,9 @@ export const resolvers = {
         deleted: false
       };
       comments.push(newComment)
-
-      let aux = 0
-
       const indexPost = posts.map(post => post.id).indexOf(args.parentId)
-      //const totalComments = comments.reduce((acc, comment) => acc.parentId === args.parentId ? acc++ : acc + 0, 0)
-      //console.log(totalComments)
-      //console.log('index Post: ', indexPost)
+      const totalComments = comments.filter(comment => comment.parentId === args.parentId)
+      posts[indexPost].commentCount = totalComments.length
 
       return newComment;
     },
