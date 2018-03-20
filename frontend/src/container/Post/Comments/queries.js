@@ -33,3 +33,9 @@ export const ADD_COMMENT = gql`
     }
   }
 `
+
+export const ALL_POSTS = gql`query posts {
+  posts {
+    commentCount
+  }
+}`

@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import PropsTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { graphql, compose } from 'react-apollo'
+import gql from 'graphql-tag'
 import { actions } from './store/actions'
-import { ADD_COMMENT, ALL_COMMENTS } from './queries'
+import { ADD_COMMENT, ALL_COMMENTS, ALL_POSTS } from './queries'
 
 class AddComment extends Component {
 
@@ -19,14 +20,31 @@ class AddComment extends Component {
           body: postBody,
           author: postAuthor
         },
-        refetchQueries: [{
-          query: ALL_COMMENTS
-        }]
+        refetchQueries: [
+          {
+            query: ALL_POSTS
+          },
+          {
+            query: gql`
+              query comments($parentId: String!) {
+                comments(parentId: $parentId) {
+                  id
+                  parentId
+                  body
+                  author
+                  voteScore
+                  deleted
+                  parentDeleted
+                }
+              }
+            `,
+            variables: {
+              parentId: this.props.parentId,
+            },
+          },
+        ]
       }).then(({ data }) => {
         cleanForm()
-        /* this.setState({
-          postSuccess: true
-        }) */
       }).catch((error) => console.log(error))
     }
   }

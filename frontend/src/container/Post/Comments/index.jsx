@@ -22,8 +22,6 @@ class Comments extends Component {
     const { data: { loading, comments }, parentId } = this.props
     const hasComments = !loading && comments
 
-    console.log('parentId: ', parentId)
-
     return (
       <div>
         {loading && <p>Loading...</p>}
