@@ -22,7 +22,7 @@ class Post extends Component {
         <Comments parentId={post.id} />
       </div>
     ) : (
-      <Redirect to={`/${post.category}`} />
+      <Redirect to="" />
     )
   }
 
@@ -62,10 +62,12 @@ const SinglePost = gql`
   }
 `
 
-export default graphql(SinglePost, {
-  options: ({ match }) => ({
-    variables: {
-      id: match.params.id
-    }
-  })
-})(Post)
+export default graphql(
+  SinglePost, {
+    options: ({ match }) => ({
+      variables: {
+        id: match.params.id
+      }
+    })
+  }
+)(Post)

@@ -11,10 +11,6 @@ class CreatePost extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      categories: [],
-      postSuccess: false
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,16 +42,14 @@ class CreatePost extends Component {
         }]
       }).then(({ data }) => {
         cleanForm()
-        this.setState({
-          postSuccess: true
-        })
+        this.props.history.goBack()
       }).catch((error) => console.log(error))
     }
   }
 
   render() {
-    const { categories, postSuccess } = this.state
     const {
+      data: { loading, categories },
       updateFormTitle,
       updateFormBody,
       updateFormAuthor,
@@ -64,62 +58,59 @@ class CreatePost extends Component {
       postAuthor,
       postCategory,
       postBody } = this.props
+
     return (
       <div>
-        {!postSuccess ? (
+        <NavLink
+          exact to='/'
+          className='Header-navLink'
+          activeClassName='Header-isActive'
+        >
+          Back to Home
+        </NavLink>
+        <form onSubmit={this.createPost}>
           <div>
-            <NavLink
-              exact to='/'
-              className='Header-navLink'
-              activeClassName='Header-isActive'
-            >
-              Back to Home
-            </NavLink>
-            <form onSubmit={this.createPost}>
-              <div>
-                <input
-                  className="form-control"
-                  name="title"
-                  value={postTitle}
-                  placeholder="title"
-                  onChange={evt => updateFormTitle(evt.target.value)}
-                  autoFocus
-                />
-              </div>
-              <div>
-                <input
-                  className="form-control"
-                  name="author"
-                  value={postAuthor}
-                  placeholder="author"
-                  onChange={evt => updateFormAuthor(evt.target.value)}
-                />
-              </div>
-              <div>
-                <Select
-                  name="category"
-                  value={postCategory}
-                  options={categories}
-                  handlerOnChange={handlerOnChange}
-                />
-              </div>
-              <div>
-                <textarea
-                  className="form-control"
-                  name="body"
-                  value={postBody}
-                  onChange={evt => updateFormBody(evt.target.value)}
-                  row="4"
-                />
-              </div>
-              <div className="col-md-12 text-center">
-                <button type="submit">ADD POST</button>
-              </div>
-            </form>
+            <input
+              className="form-control"
+              name="title"
+              value={postTitle}
+              placeholder="title"
+              onChange={evt => updateFormTitle(evt.target.value)}
+              autoFocus
+            />
           </div>
-        ) : (
-          <Redirect to='/' />
-        )}
+          <div>
+            <input
+              className="form-control"
+              name="author"
+              value={postAuthor}
+              placeholder="author"
+              onChange={evt => updateFormAuthor(evt.target.value)}
+            />
+          </div>
+          <div>
+            {categories &&
+              <Select
+                name="category"
+                value={postCategory}
+                options={categories}
+                handlerOnChange={handlerOnChange}
+              />
+            }
+          </div>
+          <div>
+            <textarea
+              className="form-control"
+              name="body"
+              value={postBody}
+              onChange={evt => updateFormBody(evt.target.value)}
+              row="4"
+            />
+          </div>
+          <div className="col-md-12 text-center">
+            <button type="submit">ADD POST</button>
+          </div>
+        </form>
       </div>
     )
   }
@@ -132,11 +123,10 @@ CreatePost.propTypes = {
   handlerOnChange: PropsTypes.func.isRequired
 }
 
-const mapProps = ({ listPostReducer }) => listPostReducer
+const mapProps = ({ addPostReducer }) => addPostReducer
 
 export default compose(
   connect(mapProps, actions),
-  graphql(ALL_POSTS),
   graphql(CATEGORIES),
   graphql(ADD_POSTS, {name: 'addPost'})
 )(CreatePost)

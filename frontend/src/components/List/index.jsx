@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Item from './item'
 
-const List = ({ title, posts, votePost, remove }) => {
+const List = ({ title, posts, votePost, editPath, remove }) => {
   return (
     <div>
       <h2>{title}:</h2>
@@ -25,7 +25,8 @@ const List = ({ title, posts, votePost, remove }) => {
             <p>Comments: {post.commentCount}</p>
           </div>
           <div>
-            <p><button onClick={() => remove(post.id)} >delete</button></p>
+            <Link to={`/post/edit/${post.id}`} className='edit-post'>edit</Link>
+            <button onClick={() => remove(post.id)} >delete</button>
           </div>
         </Item>
       ))}
@@ -36,6 +37,7 @@ const List = ({ title, posts, votePost, remove }) => {
 List.propTypes = {
   title: PropTypes.string,
   posts: PropTypes.array.isRequired,
+  edit: PropTypes.func,
   remove: PropTypes.func
 }
 

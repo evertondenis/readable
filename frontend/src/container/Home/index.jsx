@@ -38,10 +38,11 @@ class Home extends Component {
     }).catch(error => console.log(error))
   }
 
-  deletePost = id => {
-    this.props.deletePost({
+  votePost = (id, type) => {
+    this.props.votePost({
       variables: {
-        id
+        id,
+        type
       },
       refetchQueries: [{
         query: ALL_POSTS
@@ -51,11 +52,10 @@ class Home extends Component {
     .catch(error => console.log(error))
   }
 
-  votePost = (id, type) => {
-    this.props.votePost({
+  deletePost = id => {
+    this.props.deletePost({
       variables: {
-        id,
-        type
+        id
       },
       refetchQueries: [{
         query: ALL_POSTS
@@ -82,7 +82,7 @@ class Home extends Component {
       <Container>
         <div className="container">
           {loading && <p>Loading...</p>}
-          <Link to={'/add-post'} >Add Post</Link>
+          <Link to={'/post/add'} >Add Post</Link>
           {(!loading && hasPosts) && (
             <div>
               <button onClick={this.orderPost} >Order Posts</button>
