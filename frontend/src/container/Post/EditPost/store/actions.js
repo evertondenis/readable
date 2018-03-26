@@ -3,7 +3,8 @@ export const types = {
   UPDATE_FORM_AUTHOR: 'POST/UPDATE_FORM_AUTHOR',
   UPDATE_FORM_BODY: 'POST/UPDATE_FORM_BODY',
   UPDATE_FORM_CATEGORY: 'POST/UPDATE_FORM_CATEGORY',
-  UPDATE_FORM_CLEAN: 'POST/UPDATE_FORM_CLEAN'
+  UPDATE_FORM_CLEAN: 'POST/UPDATE_FORM_CLEAN',
+  SET_FIELDS: 'POST/SET_FIELDS'
 }
 
 export const actions = {
@@ -11,5 +12,6 @@ export const actions = {
   updateFormAuthor: text => ({ type: types.UPDATE_FORM_AUTHOR, text }),
   updateFormBody: text => ({ type: types.UPDATE_FORM_BODY, text }),
   handlerOnChange: option => ({ type: types.UPDATE_FORM_CATEGORY, option }),
-  cleanForm: () => ({ type: types.UPDATE_FORM_CLEAN })
+  cleanForm: () => ({ type: types.UPDATE_FORM_CLEAN }),
+  setFields: data => ({ type: types.SET_FIELDS, data })
 }

@@ -13,10 +13,10 @@ class EditPost extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
+    /* this.state = {
       categories: [],
       postSuccess: false
-    }
+    } */
   }
 
   /* componentWillReceiveProps(nextProps) {
@@ -64,10 +64,22 @@ class EditPost extends Component {
       postTitle,
       postAuthor,
       postCategory,
-      postBody } = this.props
+      postBody,
+      hasFields,
+      setFields } = this.props
 
-    const { data: { loading, post, categories }} = this.props
+    const { categories: { categories } } = this.props
+    const { singlePost: { loading, post } } = this.props
     const { title, author, body } = !loading && first(post)
+
+    console.log('Categories: ', categories)
+    console.log('Post: ', post)
+
+    if (!loading)
+      setFields(post)
+
+    if (postTitle)
+      console.log(postTitle)
 
     return (
       <div>
@@ -80,7 +92,7 @@ class EditPost extends Component {
           >
             Back to Home
           </NavLink>
-          {!loading &&
+          {hasFields &&
             <form onSubmit={this.createPost}>
               <div>
                 <input
@@ -88,7 +100,7 @@ class EditPost extends Component {
                   name="title"
                   value={postTitle}
                   placeholder="title"
-                  onClick={evt => updateFormTitle(title)}
+                  onClick={() => null}
                   onChange={evt => updateFormTitle(evt.target.value)}
                 />
               </div>
@@ -96,7 +108,7 @@ class EditPost extends Component {
                 <input
                   className="form-control"
                   name="author"
-                  value={author}
+                  value={postAuthor}
                   placeholder="author"
                   onChange={evt => updateFormAuthor(evt.target.value)}
                 />
@@ -115,7 +127,7 @@ class EditPost extends Component {
                 <textarea
                   className="form-control"
                   name="body"
-                  value={body}
+                  value={postBody}
                   onChange={evt => updateFormBody(evt.target.value)}
                   row="4"
                 />
@@ -135,7 +147,9 @@ EditPost.propTypes = {
   updateFormTitle: PropsTypes.func.isRequired,
   updateFormAuthor: PropsTypes.func.isRequired,
   updateFormBody: PropsTypes.func.isRequired,
-  handlerOnChange: PropsTypes.func.isRequired
+  handlerOnChange: PropsTypes.func.isRequired,
+  hasFields: PropsTypes.bool,
+  setFields: PropsTypes.func.isRequired
 }
 
 const mapProps = ({ addPostReducer }) => addPostReducer
@@ -148,9 +162,10 @@ export default compose(
         variables: {
           id: match.params.id
         }
-      })
+      }),
+      name: 'singlePost'
     }
   ),
-  //graphql(CATEGORIES),
+  graphql(CATEGORIES, {name: 'categories'}),
   graphql(ADD_POSTS, {name: 'addPost'})
 )(EditPost)

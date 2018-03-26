@@ -2,10 +2,11 @@ import { createReducer } from '../../../../core/utils/redux'
 import { types } from './actions'
 
 export const initialState = {
-  title: '',
+  postTitle: '',
   postAuthor: '',
   postCategory: '',
-  postBody: ''
+  postBody: '',
+  hasFields: false
 }
 
 const reducer = {
@@ -32,6 +33,12 @@ const reducer = {
     const postCategory = ''
     const postBody = ''
     return { ...state, postTitle, postAuthor, postCategory, postBody }
+  },
+  [types.SET_FIELDS](state, { data }) {
+    //console.log('Fields: ', data[0])
+    const { id, title, author, body } = data[0]
+    //console.log(id, title, author, body)
+    return { ...state, postTitle: title, hasFields: true }
   }
 }
 
