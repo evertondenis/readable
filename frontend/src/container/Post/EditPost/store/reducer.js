@@ -20,6 +20,7 @@ const reducer = {
     return { ...state, postAuthor }
   },
   [types.UPDATE_FORM_BODY](state, { text }) {
+    console.log(text)
     const postBody = text
     return { ...state, postBody }
   },
@@ -35,10 +36,11 @@ const reducer = {
     return { ...state, postTitle, postAuthor, postCategory, postBody }
   },
   [types.SET_FIELDS](state, { data }) {
-    //console.log('Fields: ', data[0])
+    console.log('set fields')
     const { id, title, author, body } = data[0]
     //console.log(id, title, author, body)
-    return { ...state, postTitle: title, hasFields: true }
+    const hasFields = true
+    return { ...state, postTitle: title, postBody: body, hasFields }
   }
 }
 

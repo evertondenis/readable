@@ -17,6 +17,36 @@ class EditPost extends Component {
       categories: [],
       postSuccess: false
     } */
+
+    console.log(props)
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps')
+    /* const { setFields } = this.props
+    const loading = nextProps.singlePost.loading
+    const post = nextProps.singlePost.post
+
+    if(!loading){
+      setFields(post)
+    } */
+  }
+
+  componentWillMount() {
+    console.log('componentWillMount')
+    const { singlePost: { loading, post }, setFields } = this.props
+
+    if (!loading)
+      setFields(post)
+  }
+
+  componentDidMount() {
+    console.log('componentDidMount')
+    const { singlePost: { loading, post }, setFields } = this.props
+
+    if (!loading)
+      setFields(post)
   }
 
   /* componentWillReceiveProps(nextProps) {
@@ -70,16 +100,10 @@ class EditPost extends Component {
 
     const { categories: { categories } } = this.props
     const { singlePost: { loading, post } } = this.props
-    const { title, author, body } = !loading && first(post)
+    //const { title, author, body } = !loading && first(post)
 
-    console.log('Categories: ', categories)
-    console.log('Post: ', post)
-
-    if (!loading)
-      setFields(post)
-
-    if (postTitle)
-      console.log(postTitle)
+    /* if (!loading)
+      setFields(post) */
 
     return (
       <div>
@@ -148,11 +172,11 @@ EditPost.propTypes = {
   updateFormAuthor: PropsTypes.func.isRequired,
   updateFormBody: PropsTypes.func.isRequired,
   handlerOnChange: PropsTypes.func.isRequired,
-  hasFields: PropsTypes.bool,
+  hasFields: PropsTypes.bool.isRequired,
   setFields: PropsTypes.func.isRequired
 }
 
-const mapProps = ({ addPostReducer }) => addPostReducer
+const mapProps = ({ editPostReducer }) => editPostReducer
 
 export default compose(
   connect(mapProps, actions),
