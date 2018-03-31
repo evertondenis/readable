@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
-import { CATEGORIES } from './queries'
+import { CATEGORIES, EDIT_POST, ALL_POSTS } from './queries'
 import Select from '../../../components/Form/Select'
 
 class FormEdit extends Component {
 
   state = {
+    postId: this.props.data.id,
     postTitle: this.props.data.title,
     postAuthor: this.props.data.author,
     postCategory: this.props.data.category,
@@ -30,17 +31,12 @@ class FormEdit extends Component {
 
   editPost = form => {
     form.preventDefault()
-    const { postTitle, postAuthor, postCategory, postBody } = this.state
+    const { postId, postTitle, postAuthor, postCategory, postBody } = this.state
 
-    console.log(postTitle)
-    console.log(postAuthor)
-    console.log(postCategory)
-    console.log(postBody)
-
-    /* if(postTitle !== '') {
-      this.props.addPost({
+    if(postTitle !== '') {
+      this.props.editPost({
         variables: {
-          timestamp: 1467166872634,
+          id: postId,
           title: postTitle,
           body: postBody,
           author: postAuthor,
@@ -50,10 +46,10 @@ class FormEdit extends Component {
           query: ALL_POSTS
         }]
       }).then(({ data }) => {
-        cleanForm()
-        this.props.history.goBack()
+        //this.props.history.goBack()
+        console.log('success')
       }).catch((error) => console.log(error))
-    } */
+    }
   }
 
   render() {
@@ -65,7 +61,7 @@ class FormEdit extends Component {
       postBody
     } = this.state
 
-    console.log('category', postCategory)
+    //console.log('category', postCategory)
 
     return (
       <form onSubmit={this.editPost}>
@@ -115,5 +111,6 @@ class FormEdit extends Component {
 }
 
 export default compose(
+  graphql(EDIT_POST, {name: 'editPost'}),
   graphql(CATEGORIES, {name: 'categories'})
 )(FormEdit)

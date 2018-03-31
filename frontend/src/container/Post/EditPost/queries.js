@@ -39,10 +39,22 @@ export const CATEGORIES = gql`query categories {
   }
 }`
 
-export const ADD_POSTS = gql`
+export const ADD_POST = gql`
   mutation addPost($timestamp: Float, $title: String!, $body: String, $author: String, $category: String) {
     addPost(timestamp: $timestamp, title: $title, body: $body, author: $author, category: $category) {
       timestamp
+      title
+      body
+      author
+      category
+    }
+  }
+`
+
+export const EDIT_POST = gql`
+  mutation editPost($id: ID!, $title: String!, $body: String, $author: String, $category: String) {
+    editPost(id: $id, title: $title, body: $body, author: $author, category: $category) {
+      id
       title
       body
       author

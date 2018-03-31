@@ -92,6 +92,18 @@ export const resolvers = {
       posts.push(newPost)
       return newPost;
     },
+    editPost: (root, args) => {
+      const { id, title, author, category, body } = args
+      const indexPost = posts.map(post => post.id).indexOf(id)
+      const { timestamp, voteScore, deleted, commentCount } = posts[indexPost]
+      posts[indexPost] = { id, timestamp, title, author, category, body, voteScore, deleted, commentCount }
+      return posts;
+    },
+    deletePost: (root, args) => {
+      const indexPost = posts.map(post => post.id).indexOf(args.id)
+      posts.splice(indexPost, 1)
+      return posts
+    },
     votePost: (root, args) => {
       const { id, type } = args
       posts.map(post => {
@@ -99,11 +111,6 @@ export const resolvers = {
           ? type === 'upVote' ? post.voteScore++ : post.voteScore !== 0 ? post.voteScore-- : 0
           : post.voteScore
       })
-      return posts
-    },
-    deletePost: (root, args) => {
-      const indexPost = posts.map(post => post.id).indexOf(args.id)
-      posts.splice(indexPost, 1)
       return posts
     },
     addComment: (root, args) => {

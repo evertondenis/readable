@@ -51,8 +51,16 @@ type Mutation {
     author: String
     category: String
   ): Posts
-  votePost(id: ID!, type: String!): [Posts]
+  editPost(
+    id: ID!
+    timestamp: Float
+    title: String!
+    body: String
+    author: String
+    category: String
+  ): [Posts]
   deletePost(id: ID!): [Posts]
+  votePost(id: ID!, type: String!): [Posts]
   addComment(
     parentId: String!
     timestamp: Float
