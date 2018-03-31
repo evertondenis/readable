@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropsTypes from 'prop-types'
-import { NavLink, Redirect } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import { connect } from 'react-redux'
 import { actions } from './store/actions'
@@ -8,10 +8,6 @@ import { ALL_POSTS, CATEGORIES, ADD_POSTS } from './queries'
 import Select from '../../../components/Form/Select'
 
 class CreatePost extends Component {
-
-  constructor(props) {
-    super(props)
-  }
 
   componentWillReceiveProps(nextProps) {
     const loading = nextProps.data.loading
@@ -49,7 +45,7 @@ class CreatePost extends Component {
 
   render() {
     const {
-      data: { loading, categories },
+      data: { categories },
       updateFormTitle,
       updateFormBody,
       updateFormAuthor,

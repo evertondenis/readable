@@ -11,9 +11,8 @@ export const initialState = {
 
 const reducer = {
   [types.UPDATE_FORM_TITLE](state, { text }) {
-    console.log(text)
-    const title = text
-    return { ...state, title }
+    const postTitle = text
+    return { ...state, postTitle }
   },
   [types.UPDATE_FORM_AUTHOR](state, { text }) {
     const postAuthor = text
@@ -36,11 +35,10 @@ const reducer = {
     return { ...state, postTitle, postAuthor, postCategory, postBody }
   },
   [types.SET_FIELDS](state, { data }) {
-    console.log('set fields')
-    const { id, title, author, body } = data[0]
-    //console.log(id, title, author, body)
+    //console.log('set fields', data)
+    const { title, author, body } = data
     const hasFields = true
-    return { ...state, postTitle: title, postBody: body, hasFields }
+    return { ...state, postTitle: title, postAuthor: author, postBody: body, hasFields }
   }
 }
 

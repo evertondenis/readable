@@ -15,7 +15,7 @@ const List = ({ title, posts, votePost, editPath, remove }) => {
             </Link>
           </p>
           <p>Author: {post.author}</p>
-          <p>Author: {post.category}</p>
+          <p>Category: {post.category}</p>
           <span>Score: {post.voteScore}</span>
           <div>
             <button onClick={() => votePost(post.id, 'upVote')} >UP</button>

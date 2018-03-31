@@ -4,7 +4,7 @@ import { types } from './actions'
 export const initialState = {
   postTitle: '',
   postAuthor: '',
-  postCategory: '',
+  postCategory: 'uncategorised',
   postBody: ''
 }
 
