@@ -16,13 +16,13 @@ const List = ({ title, posts, votePost, editPath, remove }) => {
           </p>
           <p>Author: {post.author}</p>
           <p>Category: {post.category}</p>
+          <div>
+            <p>Comments: {post.commentCount}</p>
+          </div>
           <span>Score: {post.voteScore}</span>
           <div>
             <button onClick={() => votePost(post.id, 'upVote')} >UP</button>
             <button onClick={() => votePost(post.id, 'downVote')} >DOWN</button>
-          </div>
-          <div>
-            <p>Comments: {post.commentCount}</p>
           </div>
           <div>
             <Link to={`/post/edit/${post.id}`} className='edit-post'>edit</Link>

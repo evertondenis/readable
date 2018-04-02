@@ -1,13 +1,42 @@
 import React, { Component } from 'react'
-import { NavLink, Redirect } from 'react-router-dom'
-import { graphql } from 'react-apollo'
+import { NavLink, Redirect, Link } from 'react-router-dom'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import first from 'lodash/first'
 import isEmpty from 'lodash/isEmpty'
 import Comments from './Comments'
+import { ALL_POSTS, DELETE_POST, VOTE_POST } from './queries'
 
 
 class Post extends Component {
+
+  votePost = (id, type) => {
+    this.props.votePost({
+      variables: {
+        id,
+        type
+      },
+      refetchQueries: [{
+        query: ALL_POSTS
+      }]
+    })
+    .then(() => this.props.data.refetch())
+    .catch(error => console.log(error))
+  }
+
+  deletePost = id => {
+    this.props.deletePost({
+      variables: {
+        id
+      },
+      refetchQueries: [{
+        query: ALL_POSTS
+      }]
+    })
+    .then(this.props.history.goBack())
+    .catch(error => console.log(error))
+  }
+
   renderPost = post => {
     const hasPost = !isEmpty(post)
 
@@ -15,8 +44,18 @@ class Post extends Component {
       <div>
         <article>
           <h1>{post.title}</h1>
-          <p><span>author: </span>{post.author}</p>
           <p>{post.body}</p>
+          <p><span>author: </span>{post.author}</p>
+          <p><span>comments: {post.commentCount}</span></p>
+          <p><span>score: {post.voteScore}</span></p>
+          <div>
+            <button onClick={() => this.votePost(post.id, 'upVote')} >UP</button>
+            <button onClick={() => this.votePost(post.id, 'downVote')} >DOWN</button>
+          </div>
+          <div>
+            <Link to={`/post/edit/${post.id}`} className='edit-post'>edit</Link>
+            <button onClick={() => this.deletePost(post.id)} >delete</button>
+          </div>
           <p><span>category: </span>{post.category}</p>
         </article>
         <Comments parentId={post.id} />
@@ -62,12 +101,15 @@ const SinglePost = gql`
   }
 `
 
-export default graphql(
+export default compose(
+  graphql(
   SinglePost, {
     options: ({ match }) => ({
       variables: {
         id: match.params.id
       }
     })
-  }
+  }),
+  graphql(DELETE_POST, {name: 'deletePost'}),
+  graphql(VOTE_POST, {name: 'votePost'})
 )(Post)
