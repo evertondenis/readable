@@ -7,6 +7,8 @@ import orderBy from 'lodash/orderBy'
 import List from '../../components/List'
 import Container from './styled'
 import { ALL_POSTS, DELETE_POST, VOTE_POST } from './queries'
+import { Button } from 'react-mdc-web'
+
 
 class Home extends Component {
   constructor(props) {
@@ -82,7 +84,9 @@ class Home extends Component {
       <Container>
         <div className="container">
           {loading && <p>Loading...</p>}
-          <Link to={'/post/add'} >Add Post</Link>
+          <Button compact>
+            <Link to={'/post/add'} >Add Post</Link>
+          </Button>
           {(!loading && hasPosts) && (
             <div>
               <button onClick={this.orderPost} >Order Posts</button>

@@ -6,6 +6,7 @@ import store from './store'
 import client from './apolloClient'
 import Routes from './routes'
 import './core/assets/style'
+import 'material-components-web/dist/material-components-web.min.css'
 
 
 ReactDOM.render(
