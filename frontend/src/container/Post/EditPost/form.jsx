@@ -46,8 +46,7 @@ class FormEdit extends Component {
           query: ALL_POSTS
         }]
       }).then(({ data }) => {
-        //this.props.history.goBack()
-        console.log('success')
+        this.props.history.goBack()
       }).catch((error) => console.log(error))
     }
   }
@@ -60,8 +59,6 @@ class FormEdit extends Component {
       postCategory,
       postBody
     } = this.state
-
-    //console.log('category', postCategory)
 
     return (
       <form onSubmit={this.editPost}>

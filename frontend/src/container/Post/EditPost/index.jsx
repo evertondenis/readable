@@ -8,7 +8,7 @@ import FormEdit from './form'
 class EditPost extends Component {
 
   render() {
-    const { singlePost: { loading, post } } = this.props
+    const { singlePost: { loading, post }, history} = this.props
     const currentPost = !loading && first(post)
 
     return (
@@ -22,7 +22,7 @@ class EditPost extends Component {
           >
             Back to Home
           </NavLink>
-          {!loading && <FormEdit data={currentPost} />}
+          {!loading && <FormEdit data={currentPost} history={history} />}
         </div>
       </div>
     )
