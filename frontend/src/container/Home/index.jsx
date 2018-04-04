@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
+import { Button } from 'react-md'
 import isEmpty from 'lodash/isEmpty'
 import orderBy from 'lodash/orderBy'
 import List from '../../components/List'
 import Container from './styled'
 import { ALL_POSTS, DELETE_POST, VOTE_POST } from './queries'
-import { Button } from 'react-mdc-web'
 
 
 class Home extends Component {
@@ -84,7 +84,7 @@ class Home extends Component {
       <Container>
         <div className="container">
           {loading && <p>Loading...</p>}
-          <Button compact>
+          <Button flat>
             <Link to={'/post/add'} >Add Post</Link>
           </Button>
           {(!loading && hasPosts) && (
@@ -100,7 +100,7 @@ class Home extends Component {
           )}
         </div>
       </Container>
-    );
+    )
   }
 }
 

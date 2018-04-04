@@ -5,8 +5,14 @@ import { ApolloProvider } from 'react-apollo'
 import store from './store'
 import client from './apolloClient'
 import Routes from './routes'
-import './core/assets/style'
-import 'material-components-web/dist/material-components-web.min.css'
+import './core/assets/style/main.css'
+import WebFontLoader from 'webfontloader';
+
+WebFontLoader.load({
+  google: {
+    families: ['Roboto:300,400,500,700', 'Material Icons'],
+  },
+})
 
 
 ReactDOM.render(
