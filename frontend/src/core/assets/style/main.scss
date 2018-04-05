@@ -4,7 +4,6 @@
 body {
   margin: 0;
   padding: 0;
-  background: #f4f7f6;
 }
 
 .form-control {
@@ -14,18 +13,12 @@ body {
 a {
   display: block;
   cursor: pointer;
-  text-decoration: underline;
+  text-decoration: none;
   color: black;
 }
 
 a:hover {
   color: tomato;
-}
-
-.container {
-  width: 600px;
-  margin: 10px auto;
-  text-align: left;
 }
 
 ul {
@@ -39,24 +32,3 @@ ul > li {
 .title {
   color: tomato;
 }
-
-
-/*
-bg: #FF3362
-text: #000D23
-
-#home .item_scroll:last-of-type .text h4:after {
-    background: #000D23;
-}
-#home .item_scroll .text h4:after {
-    content: '';
-    position: absolute;
-    pointer-events: none;
-    bottom: 0;
-    left: 0;
-    background: #FF3362;
-    height: 2px;
-    width: 16px;
-    margin: auto;
-}
- */

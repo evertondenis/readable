@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const Container = styled.div`
-  .App {
+  /* .App {
     text-align: center;
   }
 
@@ -16,7 +16,7 @@ const Container = styled.div`
 
   button {
     margin: 10px 0;
-  }
+  } */
 `
 
 export default Container

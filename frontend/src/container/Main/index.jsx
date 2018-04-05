@@ -1,6 +1,6 @@
 import React from 'react'
 import { Header } from './styled'
-import '../../core/assets/style'
+import '../../core/assets/style/main.css'
 
 const Main = ({ children }) => (
   <div className="container">

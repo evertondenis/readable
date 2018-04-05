@@ -5,8 +5,7 @@ import { ApolloProvider } from 'react-apollo'
 import store from './store'
 import client from './apolloClient'
 import Routes from './routes'
-import './core/assets/style/main.css'
-import WebFontLoader from 'webfontloader';
+import WebFontLoader from 'webfontloader'
 
 WebFontLoader.load({
   google: {

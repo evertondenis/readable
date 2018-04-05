@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
-import { Button } from 'react-md'
+import { Grid, Cell, Button } from 'react-md'
 import isEmpty from 'lodash/isEmpty'
 import orderBy from 'lodash/orderBy'
 import List from '../../components/List'
@@ -27,6 +26,10 @@ class Home extends Component {
         posts: orderBy(data.posts, 'voteScore', 'desc')
       })
     }
+  }
+
+  goAddPost = () => {
+    this.props.history.push('/post/add')
   }
 
   loadPost = id => {
@@ -82,23 +85,23 @@ class Home extends Component {
 
     return (
       <Container>
-        <div className="container">
-          {loading && <p>Loading...</p>}
-          <Button flat>
-            <Link to={'/post/add'} >Add Post</Link>
-          </Button>
-          {(!loading && hasPosts) && (
-            <div>
+        {loading && <p>Loading...</p>}
+        <Button flat onClick={this.goAddPost}>
+          ADD POST
+        </Button>
+        {(!loading && hasPosts) && (
+          <Grid>
+            <Cell size={12}>
               <button onClick={this.orderPost} >Order Posts</button>
-              <List
-                title="Posts"
-                posts={posts}
-                votePost={(id, type) => this.votePost(id, type)}
-                remove={id => this.deletePost(id)}
-              />
-            </div>
-          )}
-        </div>
+            </Cell>
+            <List
+              title="Posts"
+              posts={posts}
+              votePost={(id, type) => this.votePost(id, type)}
+              remove={id => this.deletePost(id)}
+            />
+          </Grid>
+        )}
       </Container>
     )
   }
