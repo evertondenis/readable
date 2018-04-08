@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
-import { CATEGORIES, EDIT_POST, ALL_POSTS } from './queries'
-import Select from '../../../components/Form/Select'
+import { CATEGORIES, ALL_POSTS } from 'graphql/queries'
+import { EDIT_POST } from 'graphql/mutations'
+import Select from 'components/Form/Select'
 
 class FormEdit extends Component {
 

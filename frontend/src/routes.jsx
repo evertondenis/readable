@@ -1,7 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import Main from './container/Main'
+import Header from './container/Header'
+import Main from 'container/Main'
 import Home from './container/Home'
 import Post from './container/Post'
 import AddPost from './container/Post/AddPost'
@@ -14,6 +15,7 @@ const Routes = () => (
     <div>
       <main>
         <Main>
+          <Header />
           <Switch>
             <Route exact path='/' component={Home} />
             <Route path='/post/add' component={AddPost} />

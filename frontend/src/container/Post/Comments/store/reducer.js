@@ -1,9 +1,10 @@
-import { createReducer } from '../../../../core/utils/redux'
+import { createReducer } from 'core/utils/redux'
 import { types } from './actions'
 
 export const initialState = {
   postAuthor: '',
-  postBody: ''
+  postBody: '',
+  visible: false
 }
 
 const reducer = {
@@ -19,6 +20,9 @@ const reducer = {
     const postAuthor = ''
     const postBody = ''
     return { ...state, postAuthor, postBody }
+  },
+  [types.OPEN_EDIT_MODAL](state) {
+    return { ...state, visible: !state.visible }
   }
 }
 

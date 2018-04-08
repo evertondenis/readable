@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import first from 'lodash/first'
-import { SINGLE_POST, CATEGORIES } from './queries'
+import { SINGLE_POST, CATEGORIES } from 'graphql/queries'
 import FormEdit from './form'
 
 class EditPost extends Component {

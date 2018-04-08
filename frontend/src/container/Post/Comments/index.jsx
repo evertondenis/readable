@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
+import { connect } from 'react-redux'
+import { actions } from './store/actions'
 import gql from 'graphql-tag'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import AddComment from './addComment'
-import { ALL_POSTS, ALL_COMMENTS, DELETE_COMMENT, VOTE_COMMENT } from './queries'
+import EditComment from './editComment'
+import { ALL_POSTS, ALL_COMMENTS } from 'graphql/queries'
+import { DELETE_COMMENT, VOTE_COMMENT } from 'graphql/mutations'
 import { StyledComments } from './styled'
 
 
@@ -76,6 +80,7 @@ class Comments extends Component {
   }
 
   renderComments = ({ id, parentId, body, author, voteScore }) => {
+    const { openEditModal } = this.props
     return (
       <StyledComments key={id}>
         <p>{body}</p>
@@ -84,12 +89,15 @@ class Comments extends Component {
         <div>
           <button onClick={() => this.voteComment(id, 'upVote')} >UP</button>
           <button onClick={() => this.voteComment(id, 'downVote')} >DOWN</button>
-        </div>
-        <div>
-          <p><button onClick={() => this.deleteComment(id, parentId)} >delete</button></p>
+          <button onClick={openEditModal} >edit</button>
+          <button onClick={() => this.deleteComment(id, parentId)} >delete</button>
         </div>
       </StyledComments>
     )
+  }
+
+  hide = () => {
+    this.setState({ visible: false })
   }
 
   render() {
@@ -104,13 +112,16 @@ class Comments extends Component {
           map(hasComments, comment => this.renderComments(comment))
         )}
         <AddComment parentId={parentId} />
+        <EditComment />
       </div>
     )
   }
 }
 
+const mapProps = ({ commentReducer }) => commentReducer
 
 export default compose(
+  connect(mapProps, actions),
   graphql(ALL_COMMENTS),
   graphql(DELETE_COMMENT, {name: 'deleteComment'}),
   graphql(VOTE_COMMENT, {name: 'voteComment'}),

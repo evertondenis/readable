@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, CardTitle, CardText } from 'react-md'
 import { Link } from 'react-router-dom'
-import { ItemStyled } from './styled'
 
 
 const Item = ({ item, votePost, remove }) => {

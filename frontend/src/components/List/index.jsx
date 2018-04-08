@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { Cell } from 'react-md'
 import Item from './item'
 

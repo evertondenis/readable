@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
-import { Grid, Cell, Button } from 'react-md'
+import { Grid, Cell, CircularProgress } from 'react-md'
 import isEmpty from 'lodash/isEmpty'
 import orderBy from 'lodash/orderBy'
 import List from 'components/List'
@@ -11,11 +11,9 @@ import { DELETE_POST, VOTE_POST } from 'graphql/mutations'
 
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sort: 'desc'
-    }
+
+  state = {
+    sort: 'desc'
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,10 +25,6 @@ class Home extends Component {
         posts: orderBy(data.posts, 'voteScore', 'desc')
       })
     }
-  }
-
-  goAddPost = () => {
-    this.props.history.push('/post/add')
   }
 
   loadPost = id => {
@@ -86,10 +80,7 @@ class Home extends Component {
 
     return (
       <Container>
-        {loading && <p>Loading...</p>}
-        <Button flat onClick={this.goAddPost}>
-          ADD POST
-        </Button>
+        {loading && <CircularProgress id="all-posts" />}
         {(!loading && hasPosts) && (
           <Grid>
             <Cell size={12}>

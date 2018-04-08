@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { NavLink, Redirect, Link } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
 import first from 'lodash/first'
 import isEmpty from 'lodash/isEmpty'
 import Comments from './Comments'
-import { ALL_POSTS, DELETE_POST, VOTE_POST } from './queries'
+import { CircularProgress } from 'react-md'
+import { ALL_POSTS } from 'graphql/queries'
+import { SINGLE_POST, DELETE_POST, VOTE_POST } from 'graphql/mutations'
 
 
 class Post extends Component {
@@ -51,8 +52,6 @@ class Post extends Component {
           <div>
             <button onClick={() => this.votePost(post.id, 'upVote')} >UP</button>
             <button onClick={() => this.votePost(post.id, 'downVote')} >DOWN</button>
-          </div>
-          <div>
             <Link to={`/post/edit/${post.id}`} className='edit-post'>edit</Link>
             <button onClick={() => this.deletePost(post.id)} >delete</button>
           </div>
@@ -71,39 +70,16 @@ class Post extends Component {
 
     return (
       <div>
-        <NavLink
-          exact to='/'
-          className='Header-navLink'
-          activeClassName='Header-isActive'
-        >
-          Back to Home
-        </NavLink>
-        {loading && <p>Loading...</p>}
+        {loading && <CircularProgress id="all-posts" />}
         {!loading && this.renderPost(postActive)}
       </div>
     )
   }
 }
 
-const SinglePost = gql`
-  query singlePost($id: ID!) {
-    post: singlePost(id: $id) {
-      id
-      timestamp
-      title
-      body
-      author
-      category
-      voteScore
-      deleted
-      commentCount
-    }
-  }
-`
-
 export default compose(
   graphql(
-  SinglePost, {
+  SINGLE_POST, {
     options: ({ match }) => ({
       variables: {
         id: match.params.id

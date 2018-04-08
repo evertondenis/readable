@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropsTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
 import { actions } from './store/actions'
-import { ADD_COMMENT, ALL_POSTS } from './queries'
+import { ALL_POSTS, ALL_COMMENTS } from 'graphql/queries'
+import { ADD_COMMENT } from 'graphql/mutations'
 
 class AddComment extends Component {
 
@@ -25,19 +25,7 @@ class AddComment extends Component {
             query: ALL_POSTS
           },
           {
-            query: gql`
-              query comments($parentId: String!) {
-                comments(parentId: $parentId) {
-                  id
-                  parentId
-                  body
-                  author
-                  voteScore
-                  deleted
-                  parentDeleted
-                }
-              }
-            `,
+            query: ALL_COMMENTS,
             variables: {
               parentId: this.props.parentId,
             },
@@ -61,7 +49,7 @@ class AddComment extends Component {
               name="author"
               value={postAuthor}
               placeholder="author"
-              onChange={evt => updateFormAuthor(evt.target.value)}
+              onChange={event => updateFormAuthor(event.target.value)}
             />
           </div>
           <div>
@@ -69,7 +57,7 @@ class AddComment extends Component {
               className="form-control"
               name="body"
               value={postBody}
-              onChange={evt => updateFormBody(evt.target.value)}
+              onChange={event => updateFormBody(event.target.value)}
               row="4"
             />
           </div>
@@ -88,7 +76,7 @@ AddComment.propTypes = {
   cleanForm: PropsTypes.func
 }
 
-const mapProps = ({ addCommentReducer }) => addCommentReducer
+const mapProps = ({ commentReducer }) => commentReducer
 
 export default compose(
   connect(mapProps, actions),

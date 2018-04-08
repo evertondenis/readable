@@ -1,10 +1,12 @@
 import React from 'react'
-import '../../core/assets/style/main.css'
+import 'core/assets/style/main.css'
+
+import { Container } from './styled.js'
 
 const Main = ({ children }) => (
-  <div className="container">
+  <Container>
     { children }
-  </div>
+  </Container>
 )
 
 export default Main
