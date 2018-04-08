@@ -1,21 +1,5 @@
 import gql from 'graphql-tag'
 
-export const SINGLE_POST = gql`
-  query singlePost($id: ID!) {
-    post: singlePost(id: $id) {
-      id
-      timestamp
-      title
-      body
-      author
-      category
-      voteScore
-      deleted
-      commentCount
-    }
-  }
-`
-
 export const ADD_POSTS = gql`
   mutation addPost(
     $timestamp: Float,
@@ -112,6 +96,24 @@ export const VOTE_COMMENT = gql`
   mutation voteComment($id: ID!, $type: String!) {
     voteComment(id: $id, type: $type) {
       id
+    }
+  }
+`
+
+export const EDIT_C0MMENT = gql`
+  mutation editComment(
+    $id: ID!,
+    $body: String,
+    $author: String
+  ) {
+    editComment(
+      id: $id,
+      body: $body,
+      author: $author
+    ) {
+      id
+      author
+      body
     }
   }
 `

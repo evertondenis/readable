@@ -5,8 +5,8 @@ import first from 'lodash/first'
 import isEmpty from 'lodash/isEmpty'
 import Comments from './Comments'
 import { CircularProgress } from 'react-md'
-import { ALL_POSTS } from 'graphql/queries'
-import { SINGLE_POST, DELETE_POST, VOTE_POST } from 'graphql/mutations'
+import { ALL_POSTS, SINGLE_POST } from 'graphql/queries'
+import { DELETE_POST, VOTE_POST } from 'graphql/mutations'
 
 
 class Post extends Component {

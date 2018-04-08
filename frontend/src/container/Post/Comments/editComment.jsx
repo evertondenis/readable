@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { actions } from './store/actions'
 import { graphql, compose } from 'react-apollo'
+import { EDIT_POST } from 'graphql/mutations'
 import {
   Button,
   DialogContainer,
@@ -105,5 +106,5 @@ const mapProps = ({ commentReducer }) => commentReducer
 
 export default compose(
   connect(mapProps, actions),
-  //graphql(EDIT_POST, {name: 'editComment'})
+  graphql(EDIT_POST, {name: 'editComment'})
 )(EditComment)

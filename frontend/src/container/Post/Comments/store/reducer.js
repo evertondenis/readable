@@ -4,7 +4,8 @@ import { types } from './actions'
 export const initialState = {
   postAuthor: '',
   postBody: '',
-  visible: false
+  visible: false,
+  commentId: undefined
 }
 
 const reducer = {
@@ -21,8 +22,8 @@ const reducer = {
     const postBody = ''
     return { ...state, postAuthor, postBody }
   },
-  [types.OPEN_EDIT_MODAL](state) {
-    return { ...state, visible: !state.visible }
+  [types.OPEN_EDIT_MODAL](state, { id }) {
+    return { ...state, visible: !state.visible, commentId: id }
   }
 }
 

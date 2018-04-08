@@ -69,6 +69,7 @@ export const resolvers = {
     posts: () => posts.filter(post => !post.deleted),
     singlePost: (root, { id }) => posts.filter(post => post.id === id),
     comments: (root, { parentId }) => comments.filter(comment => comment.parentId === parentId),
+    singleComment: (root, { id }) => comments.filter(comment => comment.id === id),
     postByCategory: (root, { category }) => posts.filter(post => post.category === category)
   },
   Mutation: {
@@ -126,7 +127,21 @@ export const resolvers = {
       comments.push(newComment)
       updateTotalComments(args.parentId)
 
-      return newComment;
+      return newComment
+    },
+    editComment: (root, args) => {
+      const { id, author, body } = args
+      const indexComment = comments.map(comment => comment.id).indexOf(id)
+      const { parentId, timestamp, voteScore, deleted, parentDeleted } = comments[indexComment]
+      comments[indexComment] = { id, parentId, timestamp, author, body, voteScore, deleted, parentDeleted }
+      return comments
+    },
+    deleteComment: (root, args) => {
+      const indexComment = comments.map(comment => comment.id).indexOf(args.id)
+      comments.splice(indexComment, 1)
+      updateTotalComments(args.parentId)
+
+      return comments
     },
     voteComment: (root, args) => {
       const { id, type } = args
@@ -135,13 +150,6 @@ export const resolvers = {
           ? type === 'upVote' ? comment.voteScore++ : comment.voteScore !== 0 ? comment.voteScore-- : 0
           : comment.voteScore
       })
-      return comments
-    },
-    deleteComment: (root, args) => {
-      const indexComment = comments.map(comment => comment.id).indexOf(args.id)
-      comments.splice(indexComment, 1)
-      updateTotalComments(args.parentId)
-
       return comments
     },
   },

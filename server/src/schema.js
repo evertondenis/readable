@@ -40,6 +40,7 @@ type Query {
   postByCategory(category: String!): [Posts]
   singlePost(id: ID!): [Posts]
   comments(parentId: String!): [Comments]
+  singleComment(id: ID!): [Comments]
 }
 
 type Mutation {
@@ -67,6 +68,11 @@ type Mutation {
     body: String
     author: String
   ): Comments
+  editComment(
+    id: ID!
+    author: String
+    body: String
+  ): [Comments]
   voteComment(id: ID!, type: String!): [Comments]
   deleteComment(id: ID!, parentId: String): [Comments]
 }

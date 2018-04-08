@@ -89,7 +89,7 @@ class Comments extends Component {
         <div>
           <button onClick={() => this.voteComment(id, 'upVote')} >UP</button>
           <button onClick={() => this.voteComment(id, 'downVote')} >DOWN</button>
-          <button onClick={openEditModal} >edit</button>
+          <button onClick={() => openEditModal(id)} >edit</button>
           <button onClick={() => this.deleteComment(id, parentId)} >delete</button>
         </div>
       </StyledComments>

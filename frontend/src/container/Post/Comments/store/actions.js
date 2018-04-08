@@ -9,5 +9,5 @@ export const actions = {
   updateFormAuthor: text => ({ type: types.UPDATE_FORM_AUTHOR, text }),
   updateFormBody: text => ({ type: types.UPDATE_FORM_BODY, text }),
   cleanForm: () => ({ type: types.UPDATE_FORM_CLEAN }),
-  openEditModal: () => ({ type: types.OPEN_EDIT_MODAL })
+  openEditModal: id => ({ type: types.OPEN_EDIT_MODAL, id })
 }
