@@ -72,6 +72,7 @@ type Mutation {
     id: ID!
     author: String
     body: String
+    parentId: String
   ): [Comments]
   voteComment(id: ID!, type: String!): [Comments]
   deleteComment(id: ID!, parentId: String): [Comments]

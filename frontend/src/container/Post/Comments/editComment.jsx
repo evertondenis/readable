@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { actions } from './store/actions'
 import { graphql, compose } from 'react-apollo'
-import { EDIT_POST } from 'graphql/mutations'
+import { SINGLE_COMMENT, ALL_COMMENTS } from 'graphql/queries'
+import { EDIT_COMMENT } from 'graphql/mutations'
 import {
   Button,
   DialogContainer,
@@ -16,7 +17,21 @@ class EditComment extends Component {
   state = {
     commentId: '',
     commentAuthor: '',
-    commentBody: ''
+    commentBody: '',
+    parentId: ''
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const data = nextProps.singleComment.comment[0]
+
+    if(data) {
+      this.setState({
+        commentId: this.props.commentId,
+        commentAuthor: data.author,
+        commentBody: data.body,
+        parentId: data.parentId
+      })
+    }
   }
 
   updateAuthorField = commentAuthor => {
@@ -29,31 +44,30 @@ class EditComment extends Component {
 
   editComment = form => {
     form.preventDefault()
-    const { commentId, commentAuthor, commentBody } = this.state
+    const { commentId, commentAuthor, commentBody, parentId } = this.state
 
-    console.log('handleSubmit', commentAuthor, commentBody)
-
-    /* if(postTitle !== '') {
-      this.props.editPost({
+    if(commentAuthor !== '') {
+      this.props.editComment({
         variables: {
-          id: postId,
-          title: postTitle,
-          body: postBody,
-          author: postAuthor,
-          category: postCategory
+          id: commentId,
+          author: commentAuthor,
+          body: commentBody,
+          parentId
         },
         refetchQueries: [{
-          query: ALL_POSTS
+          query: ALL_COMMENTS,
+          variables: {
+            parentId,
+          }
         }]
       }).then(({ data }) => {
-        this.props.openEditModal()
-        }).catch((error) => console.log(error))
-      }
-    } */
+        this.props.openEditModal(commentId)
+      }).catch((error) => console.log(error))
+    }
   }
 
   renderForm = () => {
-    const { commentAuthor, commentBody } = this.state
+    const { commentId, commentAuthor, commentBody } = this.state
     const { openEditModal } = this.props
 
     return (
@@ -76,7 +90,15 @@ class EditComment extends Component {
           className="md-cell md-cell--12"
         />
         <CardActions className="md-cell md-cell--12">
-          <Button raised secondary type="button" className="md-cell--right" onClick={openEditModal}>Cancel</Button>
+          <Button
+            raised
+            secondary
+            type="button"
+            className="md-cell--right"
+            onClick={() => openEditModal(commentId)}
+          >
+            Cancel
+          </Button>
           <Button raised primary type="submit" className="md-cell--right">Submit</Button>
         </CardActions>
       </form>
@@ -85,6 +107,7 @@ class EditComment extends Component {
 
   render() {
     const { visible, openEditModal } = this.props
+    const { commentId } = this.state
 
     return (
       <Fragment>
@@ -92,7 +115,7 @@ class EditComment extends Component {
           id="edit-comment"
           title="Edit Comment"
           visible={visible}
-          onHide={openEditModal}
+          onHide={() => openEditModal(commentId)}
           contentClassName="md-grid"
         >
           {this.renderForm()}
@@ -106,5 +129,15 @@ const mapProps = ({ commentReducer }) => commentReducer
 
 export default compose(
   connect(mapProps, actions),
-  graphql(EDIT_POST, {name: 'editComment'})
+  graphql(
+    SINGLE_COMMENT, {
+      options: props => ({
+        variables: {
+          id: props.commentId
+        }
+      }),
+      name: 'singleComment'
+    }
+  ),
+  graphql(EDIT_COMMENT, {name: 'editComment'})
 )(EditComment)

@@ -46,6 +46,17 @@ export const ALL_COMMENTS = gql`
   }
 `
 
+export const SINGLE_COMMENT = gql`
+  query singleComment($id: ID!) {
+    comment: singleComment(id: $id) {
+      id
+      author
+      body
+      parentId
+    }
+  }
+`
+
 export const CATEGORIES = gql`
   query categories {
     categories {

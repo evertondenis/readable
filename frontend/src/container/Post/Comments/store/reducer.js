@@ -5,7 +5,7 @@ export const initialState = {
   postAuthor: '',
   postBody: '',
   visible: false,
-  commentId: undefined
+  commentId: 0
 }
 
 const reducer = {

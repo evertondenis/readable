@@ -100,20 +100,23 @@ export const VOTE_COMMENT = gql`
   }
 `
 
-export const EDIT_C0MMENT = gql`
+export const EDIT_COMMENT = gql`
   mutation editComment(
     $id: ID!,
     $body: String,
     $author: String
+    $parentId: String
   ) {
     editComment(
       id: $id,
       body: $body,
-      author: $author
+      author: $author,
+      parentId: $parentId
     ) {
       id
       author
       body
+      parentId
     }
   }
 `
