@@ -4,9 +4,10 @@ import { graphql, compose } from 'react-apollo'
 import { Grid, Cell, Button } from 'react-md'
 import isEmpty from 'lodash/isEmpty'
 import orderBy from 'lodash/orderBy'
-import List from '../../components/List'
+import List from 'components/List'
 import Container from './styled'
-import { ALL_POSTS, DELETE_POST, VOTE_POST } from './queries'
+import { ALL_POSTS } from 'graphql/queries'
+import { DELETE_POST, VOTE_POST } from 'graphql/mutations'
 
 
 class Home extends Component {
