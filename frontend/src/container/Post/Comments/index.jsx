@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { connect } from 'react-redux'
 import { actions } from './store/actions'
-import gql from 'graphql-tag'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import AddComment from './addComment'
@@ -22,19 +21,7 @@ class Comments extends Component {
       },
       refetchQueries: [
         {
-          query: gql`
-            query comments($parentId: String!) {
-              comments(parentId: $parentId) {
-                id
-                parentId
-                body
-                author
-                voteScore
-                deleted
-                parentDeleted
-              }
-            }
-          `,
+          query: ALL_COMMENTS,
           variables: {
             parentId: this.props.parentId,
           },
@@ -56,19 +43,7 @@ class Comments extends Component {
           query: ALL_POSTS
         },
         {
-          query: gql`
-            query comments($parentId: String!) {
-              comments(parentId: $parentId) {
-                id
-                parentId
-                body
-                author
-                voteScore
-                deleted
-                parentDeleted
-              }
-            }
-          `,
+          query: ALL_COMMENTS,
           variables: {
             parentId: this.props.parentId,
           },

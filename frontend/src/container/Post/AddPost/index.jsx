@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import PropsTypes from 'prop-types'
-import { NavLink } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import { connect } from 'react-redux'
 import { actions } from './store/actions'
 import { ALL_POSTS, CATEGORIES, ADD_POSTS } from './queries'
-import Select from '../../../components/Form/Select'
+import Select from 'components/Form/Select'
 
 class CreatePost extends Component {
 
@@ -57,13 +56,6 @@ class CreatePost extends Component {
 
     return (
       <div>
-        <NavLink
-          exact to='/'
-          className='Header-navLink'
-          activeClassName='Header-isActive'
-        >
-          Back to Home
-        </NavLink>
         <form onSubmit={this.createPost}>
           <div>
             <input
