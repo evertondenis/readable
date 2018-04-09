@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty'
 import orderBy from 'lodash/orderBy'
 import List from 'components/List'
 import Container from './styled'
-import { ALL_POSTS } from 'graphql/queries'
+import { POST_BY_CATEGORY } from 'graphql/queries'
 import { DELETE_POST, VOTE_POST } from 'graphql/mutations'
 
 
@@ -18,11 +18,11 @@ class Categories extends Component {
 
   componentWillReceiveProps(nextProps) {
     const loading = nextProps.loading
-    const data = nextProps.data
+    const posts = nextProps.posts
 
     if(!loading){
       this.setState({
-        posts: orderBy(data.posts, 'voteScore', 'desc')
+        posts: orderBy(posts.posts, 'voteScore', 'desc')
       })
     }
   }
@@ -44,9 +44,9 @@ class Categories extends Component {
         id,
         type
       },
-      refetchQueries: [{
+      /* refetchQueries: [{
         query: ALL_POSTS
-      }]
+      }] */
     })
     .then(() => this.props.data.refetch())
     .catch(error => console.log(error))
@@ -57,9 +57,9 @@ class Categories extends Component {
       variables: {
         id
       },
-      refetchQueries: [{
+      /* refetchQueries: [{
         query: ALL_POSTS
-      }]
+      }] */
     })
     .then(() => this.props.data.refetch())
     .catch(error => console.log(error))
@@ -74,7 +74,7 @@ class Categories extends Component {
   }
 
   render() {
-    const { data: { loading } } = this.props
+    const { posts: { loading } } = this.props
     const { posts } = this.state
     const hasPosts = !isEmpty(posts)
 
@@ -110,7 +110,14 @@ Categories.propTypes = {
 }
 
 export default compose(
-  graphql(ALL_POSTS),
+  graphql(POST_BY_CATEGORY, {
+    options: ({ match }) => ({
+      variables: {
+        category: match.params.category
+      }
+    }),
+    name: 'posts'
+  }),
   graphql(DELETE_POST, {name: 'deletePost'}),
   graphql(VOTE_POST, {name: 'votePost'}),
 )(Categories)

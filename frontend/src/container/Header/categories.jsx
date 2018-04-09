@@ -15,9 +15,6 @@ class ToggleCategories extends PureComponent {
   }
 
   render() {
-    const foo = this.renderCategories()
-    console.log(foo)
-
     return (
       <MenuButton
         id="categories"

@@ -18,7 +18,7 @@ export const ALL_POSTS = gql`
 
 export const POST_BY_CATEGORY = gql`
   query postByCategory($category: String!) {
-    post: postByCategory(category: $category) {
+    posts: postByCategory(category: $category) {
       id
       timestamp
       title

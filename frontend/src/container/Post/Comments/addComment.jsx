@@ -27,7 +27,7 @@ class AddComment extends Component {
           {
             query: ALL_COMMENTS,
             variables: {
-              parentId: this.props.parentId,
+              parentId,
             },
           },
         ]
