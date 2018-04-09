@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
-import { MenuButton } from 'react-md'
+import { MenuButton, ListItem } from 'react-md'
 import map from 'lodash/map'
 
 class ToggleCategories extends PureComponent {
@@ -8,7 +8,8 @@ class ToggleCategories extends PureComponent {
   renderCategories = () => {
     const { categories } = this.props
     return (
-      map(categories, item => (<Link key={`category-${item.name}`} to={`/${item.name}`} >{item.name}</Link>))
+      // map(categories, item => (<ListItem key={`cat-${item.name}`} primaryText={item.name} />))
+      map(categories, item => (<Link className="item-category" key={`category-${item.name}`} to={`/${item.name}`} >{item.name}</Link>))
     )
   }
 
