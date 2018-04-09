@@ -16,6 +16,22 @@ export const ALL_POSTS = gql`
   }
 `
 
+export const POST_BY_CATEGORY = gql`
+  query postByCategory($category: String!) {
+    post: postByCategory(category: $category) {
+      id
+      timestamp
+      title
+      body
+      author
+      category
+      voteScore
+      deleted
+      commentCount
+    }
+  }
+`
+
 export const SINGLE_POST = gql`
   query singlePost($id: ID!) {
     post: singlePost(id: $id) {
