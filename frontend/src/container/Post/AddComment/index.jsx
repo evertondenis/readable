@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import PropsTypes from 'prop-types'
 import { NavLink, Redirect } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
 import { connect } from 'react-redux'
 import { actions } from './store/actions'
+import { ALL_POSTS } from 'graphql/queries'
+import { ADD_POSTS, DELETE_POST, VOTE_POST } from 'graphql/mutations'
 
 class AddComment extends Component {
 
@@ -30,7 +31,7 @@ class AddComment extends Component {
           category: 'redux'
         },
         refetchQueries: [{
-          query: Query
+          query: ALL_POSTS
         }]
       }).then(({ data }) => {
         this.setState({
@@ -88,32 +89,6 @@ class AddComment extends Component {
   }
 }
 
-const Query = gql`query posts {
-  posts {
-    id
-    timestamp
-    title
-    body
-    author
-    category
-    voteScore
-    deleted
-    commentCount
-  }
-}`
-
-const AddPost = gql`
-  mutation addPost($timestamp: String, $title: String!, $body: String, $author: String, $category: String) {
-    addPost(timestamp: $timestamp, title: $title, body: $body, author: $author, category: $category) {
-      timestamp
-      title
-      body
-      author
-      category
-    }
-  }
-`
-
 AddPost.propTypes = {
   updateFormTitle: PropsTypes.func.isRequired,
 }
@@ -122,6 +97,6 @@ const mapProps = ({ listPostReducer }) => listPostReducer
 
 export default compose(
   connect(mapProps, actions),
-  graphql(Query),
-  graphql(AddPost, {name: 'addPost'})
+  graphql(ALL_POSTS),
+  graphql(ADD_POSTS, {name: 'addPost'})
 )(AddComment)

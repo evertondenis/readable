@@ -5,7 +5,7 @@ import first from 'lodash/first'
 import isEmpty from 'lodash/isEmpty'
 import Comments from './Comments'
 import NotFound from 'container/NotFound'
-import { CircularProgress } from 'react-md'
+import { CircularProgress, Button } from 'react-md'
 import { ALL_POSTS, SINGLE_POST } from 'graphql/queries'
 import { DELETE_POST, VOTE_POST } from 'graphql/mutations'
 
@@ -51,10 +51,15 @@ class Post extends Component {
           <p><span>comments: {post.commentCount}</span></p>
           <p><span>score: {post.voteScore}</span></p>
           <div>
-            <button onClick={() => this.votePost(post.id, 'upVote')} >UP</button>
+            <Button icon primary onClick={() => this.votePost(post.id, 'upVote')}>thumb_up</Button>
+            <Button icon primary onClick={() => this.votePost(post.id, 'downVote')}>thumb_down</Button>
+            <Button icon primary><Link to={`/post/edit/${post.id}`}>edit</Link></Button>
+            <Button icon primary onClick={() => this.deletePost(post.id)}>delete</Button>
+
+            {/* <button onClick={() => this.votePost(post.id, 'upVote')} >UP</button>
             <button onClick={() => this.votePost(post.id, 'downVote')} >DOWN</button>
             <Link to={`/post/edit/${post.id}`} className='edit-post'>edit</Link>
-            <button onClick={() => this.deletePost(post.id)} >delete</button>
+            <button onClick={() => this.deletePost(post.id)} >delete</button> */}
           </div>
           <p><span>category: </span>{post.category}</p>
         </article>

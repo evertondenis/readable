@@ -3,7 +3,8 @@ import PropsTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import { connect } from 'react-redux'
 import { actions } from './store/actions'
-import { ALL_POSTS, CATEGORIES, ADD_POSTS } from './queries'
+import { ALL_POSTS, CATEGORIES } from 'graphql/queries'
+import { ADD_POSTS } from 'graphql/mutations'
 import Select from 'components/Form/Select'
 
 class CreatePost extends Component {

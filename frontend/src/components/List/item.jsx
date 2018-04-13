@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, CardTitle, CardText, Button, FontIcon } from 'react-md'
+import { Card, CardTitle, CardText, Button } from 'react-md'
 import { Link } from 'react-router-dom'
 
 
@@ -18,11 +18,9 @@ const Item = ({ item, votePost, remove }) => {
         </div>
         <span>Score: {item.voteScore}</span>
         <div>
-          <Button icon primary onClick={() => votePost(item.id, 'upVote')}>thumbs_up</Button>
-          <Button icon primary onClick={() => votePost(item.id, 'downVote')}>thumbs_down</Button>
-          <Button icon primary>
-            <Link to={`/post/edit/${item.id}`}>edit</Link>
-          </Button>
+          <Button icon primary onClick={() => votePost(item.id, 'upVote')}>thumb_up</Button>
+          <Button icon primary onClick={() => votePost(item.id, 'downVote')}>thumb_down</Button>
+          <Button icon primary><Link to={`/post/edit/${item.id}`}>edit</Link></Button>
           <Button icon primary onClick={() => remove(item.id)}>delete</Button>
         </div>
       </CardText>

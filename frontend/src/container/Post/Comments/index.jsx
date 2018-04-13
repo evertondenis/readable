@@ -8,6 +8,7 @@ import AddComment from './addComment'
 import EditComment from './editComment'
 import { ALL_POSTS, ALL_COMMENTS } from 'graphql/queries'
 import { DELETE_COMMENT, VOTE_COMMENT } from 'graphql/mutations'
+import { Button } from 'react-md'
 import { StyledComments } from './styled'
 
 
@@ -62,10 +63,10 @@ class Comments extends Component {
         <p><span>author: </span>{author}</p>
         <p><span>score: </span>{voteScore}</p>
         <div>
-          <button onClick={() => this.voteComment(id, 'upVote')} >UP</button>
-          <button onClick={() => this.voteComment(id, 'downVote')} >DOWN</button>
-          <button onClick={() => openEditModal(id)} >edit</button>
-          <button onClick={() => this.deleteComment(id, parentId)} >delete</button>
+          <Button icon primary onClick={() => this.voteComment(id, 'upVote')}>thumb_up</Button>
+          <Button icon primary onClick={() => this.voteComment(id, 'downVote')}>thumb_down</Button>
+          <Button icon primary onClick={() => openEditModal(id)}>edit</Button>
+          <Button icon primary onClick={() => this.deleteComment(id, parentId)}>delete</Button>
         </div>
       </StyledComments>
     )
