@@ -6,23 +6,26 @@ import isEmpty from 'lodash/isEmpty'
 import orderBy from 'lodash/orderBy'
 import List from 'components/List'
 import Container from './styled'
-import { POST_BY_CATEGORY } from 'graphql/queries'
+import { ALL_POSTS, POST_BY_CATEGORY } from 'graphql/queries'
 import { DELETE_POST, VOTE_POST } from 'graphql/mutations'
 
 
 class Categories extends Component {
 
   state = {
-    sort: 'desc'
+    sort: 'desc',
+    category: ''
   }
 
   componentWillReceiveProps(nextProps) {
     const loading = nextProps.loading
     const posts = nextProps.posts
+    const category = nextProps.match.params.category
 
     if(!loading){
       this.setState({
-        posts: orderBy(posts.posts, 'voteScore', 'desc')
+        posts: orderBy(posts.posts, 'voteScore', 'desc'),
+        category
       })
     }
   }
@@ -44,11 +47,14 @@ class Categories extends Component {
         id,
         type
       },
-      /* refetchQueries: [{
-        query: ALL_POSTS
-      }] */
+      refetchQueries: [{
+        query: POST_BY_CATEGORY,
+        variables: {
+          category: this.state.category
+        }
+      }]
     })
-    .then(() => this.props.data.refetch())
+    .then(() => null)
     .catch(error => console.log(error))
   }
 
@@ -57,11 +63,16 @@ class Categories extends Component {
       variables: {
         id
       },
-      /* refetchQueries: [{
-        query: ALL_POSTS
-      }] */
+      refetchQueries: [{
+        query: ALL_POSTS,
+      },{
+        query: POST_BY_CATEGORY,
+        variables: {
+          category: this.state.category
+        }
+      }]
     })
-    .then(() => this.props.data.refetch())
+    .then(() => null)
     .catch(error => console.log(error))
   }
 
@@ -73,6 +84,22 @@ class Categories extends Component {
     }))
   }
 
+  renderCategory = posts => {
+    return (
+      <Grid>
+        <Cell size={12}>
+          <button onClick={this.orderPost} >Order Posts</button>
+        </Cell>
+        <List
+          title="Posts"
+          posts={posts}
+          votePost={(id, type) => this.votePost(id, type)}
+          remove={id => this.deletePost(id)}
+        />
+      </Grid>
+    )
+  }
+
   render() {
     const { posts: { loading } } = this.props
     const { posts } = this.state
@@ -81,19 +108,7 @@ class Categories extends Component {
     return (
       <Container>
         {loading && <CircularProgress id="all-posts" />}
-        {(!loading && hasPosts) && (
-          <Grid>
-            <Cell size={12}>
-              <button onClick={this.orderPost} >Order Posts</button>
-            </Cell>
-            <List
-              title="Posts"
-              posts={posts}
-              votePost={(id, type) => this.votePost(id, type)}
-              remove={id => this.deletePost(id)}
-            />
-          </Grid>
-        )}
+        {!loading && hasPosts ? this.renderCategory(posts) : !loading && <h1>Don't have any post here ;(</h1>}
       </Container>
     )
   }

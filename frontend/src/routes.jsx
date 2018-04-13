@@ -21,8 +21,8 @@ const Routes = () => (
             <Route exact path='/' component={Home} />
             <Route path='/post/add' component={AddPost} />
             <Route path='/post/edit/:id' component={EditPost} />
-            <Route path='/:category' component={Categories} />
             <Route path='/:category/:id' component={Post} />
+            <Route path='/:category' component={Categories} />
             <Route path="/404" component={NotFound} />
             <Route path="*" component={NotFound} />
           </Switch>
